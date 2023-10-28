@@ -2,13 +2,18 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { HeaderComponent } from './core/components/header.component';
 
 @Component({
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, HeaderComponent],
   selector: 'beever-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  template: `
+    <beever-header></beever-header>
+    <main class="flex flex-col items-center justify-center pt-16">
+      <router-outlet></router-outlet>
+    </main>
+  `,
 })
 export class AppComponent {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
