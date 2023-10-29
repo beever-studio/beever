@@ -17,6 +17,13 @@ import { AsyncPipe, NgIf } from '@angular/common';
       >
         <img src="assets/icons/cancel_presentation.svg" alt="" />
       </button>
+      <button
+        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        title="Capture snapshot"
+        (click)="captureSnapshot()"
+      >
+        <img src="assets/icons/capture.svg" alt="" />
+      </button>
     </section>
   `,
   imports: [NgIf, AsyncPipe],
@@ -28,5 +35,9 @@ export class VideoControlsComponent {
 
   stopPresentation(): void {
     this.screenRecorderService.stopPresentation();
+  }
+
+  captureSnapshot(): void {
+    this.screenRecorderService.captureSnapshot();
   }
 }

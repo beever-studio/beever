@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { defer, filter, map, Observable, tap } from 'rxjs';
 import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { captureSnapshot } from '../../shared/utils/capture-snapshot.util';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,10 @@ export class ScreenRecorderService {
 
     this.video.srcObject = null;
     this.status.set(ScreenRecorderStatus.INACTIVE);
+  }
+
+  public captureSnapshot(): void {
+    captureSnapshot(this.video);
   }
 
   private getDisplayMedia(): Promise<MediaStream> {
