@@ -7,7 +7,8 @@ import { defer, Observable, tap } from 'rxjs';
 export class ScreenRecorderService {
   video!: HTMLVideoElement;
 
-  public getStream(): Observable<MediaStream> {
+  public getStream(video: HTMLVideoElement): Observable<MediaStream> {
+    this.video = video;
     return defer(() => this.getDisplayMedia()).pipe(
       tap((stream) => this.initStream(stream))
     );
