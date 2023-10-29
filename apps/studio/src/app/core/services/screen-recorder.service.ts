@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { defer, Observable, tap } from 'rxjs';
+import { defer, filter, Observable, tap } from 'rxjs';
 import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
 
@@ -10,11 +10,13 @@ export class ScreenRecorderService {
   video!: HTMLVideoElement;
 
   status = signal(ScreenRecorderStatus.INACTIVE);
-  status$ = toObservable(this.status);
 
-  public getStream(video: HTMLVideoElement): Observable<MediaStream> {
+  isInactive$ = toObservable(this.status).pipe(
+    filter((status) => status === ScreenRecorderStatus.INACTIVE)
+  );
+
+  public getStream(): Observable<MediaStream> {
     this.status.set(ScreenRecorderStatus.SELECTING);
-    this.video = video;
     return defer(() => this.getDisplayMedia()).pipe(
       tap({
         next: (stream) => {
@@ -31,6 +33,7 @@ export class ScreenRecorderService {
     tracks?.forEach((track) => track.stop());
 
     this.video.srcObject = null;
+    this.status.set(ScreenRecorderStatus.INACTIVE);
   }
 
   private getDisplayMedia(): Promise<MediaStream> {
