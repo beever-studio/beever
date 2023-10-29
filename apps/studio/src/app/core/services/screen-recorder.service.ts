@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { defer, filter, Observable, tap } from 'rxjs';
+import { defer, filter, map, Observable, tap } from 'rxjs';
 import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
 
@@ -13,6 +13,10 @@ export class ScreenRecorderService {
 
   isInactive$ = toObservable(this.status).pipe(
     filter((status) => status === ScreenRecorderStatus.INACTIVE)
+  );
+
+  isActive$ = toObservable(this.status).pipe(
+    map((status) => status !== ScreenRecorderStatus.INACTIVE)
   );
 
   public getStream(): Observable<MediaStream> {
