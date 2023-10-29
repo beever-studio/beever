@@ -37,5 +37,11 @@ export class AppComponent {
       'capture',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/capture.svg')
     );
+    iconRegistry.addSvgIcon(
+      'cancel_presentation',
+      sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/cancel_presentation.svg'
+      )
+    );
   }
 }

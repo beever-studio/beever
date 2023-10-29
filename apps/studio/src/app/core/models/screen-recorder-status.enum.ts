@@ -1,0 +1,9 @@
+export enum ScreenRecorderStatus {
+  INACTIVE = 'INACTIVE',
+  SELECTING = 'SELECTING',
+  SELECTED = 'SELECTED',
+  IDLE = 'IDLE',
+  RECORDING = 'RECORDING',
+  PAUSED = 'PAUSED',
+  STOPPED = 'STOPPED',
+}
