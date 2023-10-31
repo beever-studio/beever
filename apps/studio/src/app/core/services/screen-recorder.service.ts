@@ -67,6 +67,13 @@ export class ScreenRecorderService {
     this.status.set(ScreenRecorderStatus.RECORDING);
   }
 
+  stopRecording(): void {
+    if (this.mediaRecorder()) {
+      this.mediaRecorder()?.stop();
+      this.status.set(ScreenRecorderStatus.STOPPED);
+    }
+  }
+
   public captureSnapshot(): void {
     captureSnapshot(this.video);
   }
