@@ -18,11 +18,11 @@ export class ScreenRecorderService {
 
   isActive$ = toObservable(this.status).pipe(
     map((status) => {
-      const statuses = [
-        ScreenRecorderStatus.INACTIVE,
-        ScreenRecorderStatus.SELECTING,
-      ];
-      return !statuses.includes(status);
+      const isInactive = status === ScreenRecorderStatus.INACTIVE;
+      const unSelectedScreen =
+        status === ScreenRecorderStatus.SELECTING && !window.stream;
+
+      return !isInactive && !unSelectedScreen;
     })
   );
 
@@ -31,6 +31,7 @@ export class ScreenRecorderService {
     return defer(() => this.getDisplayMedia()).pipe(
       tap({
         next: (stream) => {
+          this.resetStream();
           this.initStream(stream);
           this.status.set(ScreenRecorderStatus.SELECTED);
         },
@@ -40,10 +41,8 @@ export class ScreenRecorderService {
   }
 
   public stopPresentation(): void {
-    const tracks = window.stream?.getTracks();
-    tracks?.forEach((track) => track.stop());
+    this.resetStream();
 
-    this.video.srcObject = null;
     this.status.set(ScreenRecorderStatus.INACTIVE);
   }
 
@@ -64,5 +63,12 @@ export class ScreenRecorderService {
   private initStream(stream: MediaStream): void {
     window.stream = stream;
     this.video.srcObject = stream;
+  }
+
+  private resetStream(): void {
+    const tracks = window.stream?.getTracks();
+    tracks?.forEach((track) => track.stop());
+
+    this.video.srcObject = null;
   }
 }
