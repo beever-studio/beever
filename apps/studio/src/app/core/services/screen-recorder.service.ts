@@ -4,6 +4,7 @@ import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { captureSnapshot } from '../../shared/utils/capture-snapshot.util';
 import { getSupportedMimeTypes } from '../../shared/utils/mime-type.util';
+import { downloadRecording } from '../../shared/utils/download-recording.util';
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +73,10 @@ export class ScreenRecorderService {
       this.mediaRecorder()?.stop();
       this.status.set(ScreenRecorderStatus.STOPPED);
     }
+  }
+
+  download(): void {
+    downloadRecording(this.recordedBlobs());
   }
 
   public captureSnapshot(): void {

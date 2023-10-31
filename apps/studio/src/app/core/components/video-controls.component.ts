@@ -49,6 +49,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         matRipple
         [matRippleCentered]="true"
         class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        title="Download recording"
+        (click)="downloadRecording()"
+      >
+        <img src="assets/icons/download.svg" alt="" />
+      </button>
+      <button
+        matRipple
+        [matRippleCentered]="true"
+        class="border-2 border-gray-500 rounded-xl px-2 py-2"
         title="Capture snapshot"
         (click)="captureSnapshot()"
       >
@@ -79,6 +88,10 @@ export class VideoControlsComponent {
 
   stopRecording(): void {
     this.screenRecorderService.stopRecording();
+  }
+
+  downloadRecording(): void {
+    this.screenRecorderService.download();
   }
 
   captureSnapshot(): void {
