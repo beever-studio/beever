@@ -7,10 +7,7 @@ import { MatRippleModule } from '@angular/material/core';
   selector: 'beever-video-controls',
   standalone: true,
   template: `
-    <section
-      *ngIf="isActive$ | async"
-      class="flex items-center justify-center gap-4 p-2"
-    >
+    <section class="flex items-center justify-center gap-4 p-2">
       <button
         matRipple
         [matRippleCentered]="true"
@@ -35,8 +32,6 @@ import { MatRippleModule } from '@angular/material/core';
 })
 export class VideoControlsComponent {
   screenRecorderService = inject(ScreenRecorderService);
-
-  isActive$ = this.screenRecorderService.isActive$;
 
   stopPresentation(): void {
     this.screenRecorderService.stopPresentation();

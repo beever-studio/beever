@@ -17,7 +17,13 @@ export class ScreenRecorderService {
   );
 
   isActive$ = toObservable(this.status).pipe(
-    map((status) => status !== ScreenRecorderStatus.INACTIVE)
+    map((status) => {
+      const statuses = [
+        ScreenRecorderStatus.INACTIVE,
+        ScreenRecorderStatus.SELECTING,
+      ];
+      return !statuses.includes(status);
+    })
   );
 
   public getStream(): Observable<MediaStream> {
