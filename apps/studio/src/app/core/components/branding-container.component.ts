@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { AsyncPipe, NgClass, NgForOf } from '@angular/common';
 import { SnapshotComponent } from './snapshot.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { ScreenRecorderService } from '../services/screen-recorder.service';
 
 @Component({
   selector: 'beever-branding-container',
@@ -49,9 +50,14 @@ import { FormsModule } from '@angular/forms';
       </ul>
     </section>`,
 })
-export class BrandingContainerComponent {
-  logos = signal<string[]>([]);
-  activeLogo = signal<string | null>(null);
+export class BrandingContainerComponent implements OnInit {
+  screenRecorderService = inject(ScreenRecorderService);
+  logos = signal<string[]>(['assets/images/logo.png']);
+  activeLogo = signal<string | null>(this.logos()[0]);
+
+  ngOnInit() {
+    this.screenRecorderService.logo.set(this.activeLogo());
+  }
 
   uploadLogo(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -64,6 +70,10 @@ export class BrandingContainerComponent {
   }
 
   activateLogo(logo: string): void {
-    this.activeLogo.set(logo);
+    this.activeLogo.update((currentlogo) =>
+      currentlogo === logo ? null : logo
+    );
+    this.screenRecorderService.logo.set(this.activeLogo());
+    this.screenRecorderService.renderCanvas();
   }
 }

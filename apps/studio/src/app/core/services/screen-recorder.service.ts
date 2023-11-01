@@ -1,10 +1,11 @@
 import { Injectable, signal } from '@angular/core';
-import { defer, filter, map, Observable, tap } from 'rxjs';
+import { defer, filter, map, Observable, take, tap } from 'rxjs';
 import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { captureSnapshot } from '../../shared/utils/capture-snapshot.util';
 import { getSupportedMimeTypes } from '../../shared/utils/mime-type.util';
 import { downloadRecording } from '../../shared/utils/download-recording.util';
+import { imageLoader } from '../../shared/utils/image-loader.util';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,13 @@ export class ScreenRecorderService {
   snapshots = signal<string[]>([]);
   status = signal(ScreenRecorderStatus.INACTIVE);
 
+  /* overlays */
+  logo = signal<string | null>(null);
+
   supportedMimeTypes = getSupportedMimeTypes();
 
   video!: HTMLVideoElement;
+  canvas!: HTMLCanvasElement;
 
   isInactive$ = toObservable(this.status).pipe(
     filter((status) => status === ScreenRecorderStatus.INACTIVE)
@@ -99,7 +104,7 @@ export class ScreenRecorderService {
   }
 
   public captureSnapshot(): void {
-    const snapshot = captureSnapshot(this.video);
+    const snapshot = captureSnapshot(this.canvas);
     this.snapshots.update((snapshots) => [...snapshots, snapshot]);
   }
 
@@ -120,8 +125,31 @@ export class ScreenRecorderService {
   }
 
   private initStream(stream: MediaStream): void {
-    window.stream = stream;
+    window.stream = this.canvas.captureStream();
     this.video.srcObject = stream;
+
+    this.renderCanvas();
+    window.requestAnimationFrame(this.renderCanvas.bind(this));
+  }
+
+  renderCanvas(): void {
+    const context = this.canvas.getContext('2d');
+    if (context) {
+      const logo = this.logo();
+
+      if (logo) {
+        imageLoader(logo)
+          .pipe(take(1))
+          .subscribe((image) => {
+            context.drawImage(this.video, 0, 0, 640, 480);
+            context.drawImage(image, 550, 10, 80, 80);
+            window.requestAnimationFrame(this.renderCanvas.bind(this));
+          });
+      } else {
+        context.drawImage(this.video, 0, 0, 640, 480);
+        window.requestAnimationFrame(this.renderCanvas.bind(this));
+      }
+    }
   }
 
   private resetStream(): void {

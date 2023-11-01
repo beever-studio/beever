@@ -25,8 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
       class="flex justify-center items-center rounded-lg border-2 border-primary p-2 bg-black w-[640px] h-[480px]"
     >
       <video
-        cdkOverlayOrigin
-        #trigger="cdkOverlayOrigin"
+        class="hidden"
         #video
         width="640"
         height="480"
@@ -34,6 +33,13 @@ import { MatButtonModule } from '@angular/material/button';
         autoPlay
         muted
       ></video>
+      <canvas
+        #canvas
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+        width="640"
+        height="480"
+      ></canvas>
     </div>
     <ng-template
       cdkConnectedOverlay
@@ -71,6 +77,9 @@ export class VideoComponent implements AfterViewInit {
   @ViewChild('video', { read: ElementRef })
   video!: ElementRef<HTMLVideoElement>;
 
+  @ViewChild('canvas', { read: ElementRef })
+  canvas!: ElementRef<HTMLCanvasElement>;
+
   constructor() {
     this.screenRecorderService.isInactive$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -81,6 +90,7 @@ export class VideoComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.screenRecorderService.video = this.video.nativeElement;
+    this.screenRecorderService.canvas = this.canvas.nativeElement;
   }
 
   selectScreen(): void {
