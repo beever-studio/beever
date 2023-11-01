@@ -67,7 +67,6 @@ export class ScreenRecorderService {
 
     recorder.ondataavailable = (event) => {
       if (event.data && event.data.size > 0) {
-        console.log('on avaible', this.recordedBlobs());
         this.recordedBlobs.update((blobs) => [...blobs, event.data]);
       }
     };
@@ -81,12 +80,10 @@ export class ScreenRecorderService {
     if (this.mediaRecorder()) {
       this.mediaRecorder()?.stop();
       this.status.set(ScreenRecorderStatus.STOPPED);
-      console.log(this.recordedBlobs());
     }
   }
 
   download(): void {
-    console.log('download', this.recordedBlobs());
     downloadRecording(this.recordedBlobs());
   }
 
