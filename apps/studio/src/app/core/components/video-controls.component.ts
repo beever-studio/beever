@@ -3,6 +3,7 @@ import { ScreenRecorderService } from '../services/screen-recorder.service';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DisabledDirective } from '../../shared/directives/disabled.directive';
 
 @Component({
   selector: 'beever-video-controls',
@@ -32,6 +33,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         [matRippleCentered]="true"
         class="border-2 border-gray-500 rounded-xl px-2 py-2"
         title="Start recording"
+        [beeverDisabled]="isRecording$ | async"
         (click)="startRecording()"
       >
         <img src="assets/icons/play_arrow.svg" alt="" />
@@ -41,6 +43,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         [matRippleCentered]="true"
         class="border-2 border-gray-500 rounded-xl px-2 py-2"
         title="Stop recording"
+        [beeverDisabled]="(isRecording$ | async) === false"
         (click)="stopRecording()"
       >
         <img src="assets/icons/stop.svg" alt="" />
@@ -50,6 +53,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         [matRippleCentered]="true"
         class="border-2 border-gray-500 rounded-xl px-2 py-2"
         title="Download recording"
+        [beeverDisabled]="(isStopped$ | async) === false"
         (click)="downloadRecording()"
       >
         <img src="assets/icons/download.svg" alt="" />
@@ -65,11 +69,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       </button>
     </section>
   `,
-  imports: [NgIf, AsyncPipe, MatRippleModule],
+  imports: [NgIf, AsyncPipe, MatRippleModule, DisabledDirective],
 })
 export class VideoControlsComponent {
   screenRecorderService = inject(ScreenRecorderService);
   destroyRef = inject(DestroyRef);
+
+  isRecording$ = this.screenRecorderService.isRecording$;
+  isStopped$ = this.screenRecorderService.isStopped$;
 
   selectScreen(): void {
     this.screenRecorderService
