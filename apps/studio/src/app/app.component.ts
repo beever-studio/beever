@@ -38,10 +38,22 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/capture.svg')
     );
     iconRegistry.addSvgIcon(
+      'download',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/download.svg')
+    );
+    iconRegistry.addSvgIcon(
       'cancel_presentation',
       sanitizer.bypassSecurityTrustResourceUrl(
         'assets/icons/cancel_presentation.svg'
       )
+    );
+    iconRegistry.addSvgIcon(
+      'delete',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/delete.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/close.svg')
     );
   }
 }

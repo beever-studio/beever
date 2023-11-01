@@ -12,11 +12,12 @@ import { downloadRecording } from '../../shared/utils/download-recording.util';
 export class ScreenRecorderService {
   mediaRecorder = signal<MediaRecorder | undefined>(undefined);
   recordedBlobs = signal<Blob[]>([]);
+  snapshots = signal<string[]>([]);
+  status = signal(ScreenRecorderStatus.INACTIVE);
+
   supportedMimeTypes = getSupportedMimeTypes();
 
   video!: HTMLVideoElement;
-
-  status = signal(ScreenRecorderStatus.INACTIVE);
 
   isInactive$ = toObservable(this.status).pipe(
     filter((status) => status === ScreenRecorderStatus.INACTIVE)
@@ -39,6 +40,8 @@ export class ScreenRecorderService {
   isStopped$ = toObservable(this.status).pipe(
     map((status) => status === ScreenRecorderStatus.STOPPED)
   );
+
+  snapshots$ = toObservable(this.snapshots);
 
   public getStream(): Observable<MediaStream> {
     this.status.set(ScreenRecorderStatus.SELECTING);
@@ -96,7 +99,14 @@ export class ScreenRecorderService {
   }
 
   public captureSnapshot(): void {
-    captureSnapshot(this.video);
+    const snapshot = captureSnapshot(this.video);
+    this.snapshots.update((snapshots) => [...snapshots, snapshot]);
+  }
+
+  public deleteSnapshot(index: number): void {
+    this.snapshots.update((snapshots) =>
+      snapshots.filter((_, i) => i !== index)
+    );
   }
 
   private getDisplayMedia(): Promise<MediaStream> {
