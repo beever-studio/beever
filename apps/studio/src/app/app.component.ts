@@ -57,7 +57,7 @@ export class AppComponent {
     );
     iconRegistry.addSvgIcon(
       'branding',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/branding.svg')
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/palette.svg')
     );
   }
 }
