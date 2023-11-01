@@ -141,12 +141,12 @@ export class ScreenRecorderService {
         imageLoader(logo)
           .pipe(take(1))
           .subscribe((image) => {
-            context.drawImage(this.video, 0, 0, 640, 480);
-            context.drawImage(image, 550, 10, 80, 80);
+            context.drawImage(this.video, 0, 0, 854, 480);
+            context.drawImage(image, 964, 10, 80, 80);
             window.requestAnimationFrame(this.renderCanvas.bind(this));
           });
       } else {
-        context.drawImage(this.video, 0, 0, 640, 480);
+        context.drawImage(this.video, 0, 0, 854, 480);
         window.requestAnimationFrame(this.renderCanvas.bind(this));
       }
     }

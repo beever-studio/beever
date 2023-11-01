@@ -22,12 +22,12 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   template: `
     <div
-      class="flex justify-center items-center rounded-lg border-2 border-primary p-2 bg-black w-[640px] h-[480px]"
+      class="flex justify-center items-center rounded-lg border-2 border-primary p-2 bg-black w-[854px] h-[480px]"
     >
       <video
         class="hidden"
         #video
-        width="640"
+        width="854"
         height="480"
         playsInline
         autoPlay
@@ -37,7 +37,7 @@ import { MatButtonModule } from '@angular/material/button';
         #canvas
         cdkOverlayOrigin
         #trigger="cdkOverlayOrigin"
-        width="640"
+        width="854"
         height="480"
       ></canvas>
     </div>
