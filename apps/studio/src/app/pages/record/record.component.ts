@@ -26,8 +26,12 @@ import { BrandingContainerComponent } from '../../core/components/branding-conta
   standalone: true,
   template: `
     <mat-drawer-container class="flex-1" autosize>
-      <beever-video></beever-video>
-      <beever-video-controls *ngIf="isActive$ | async"></beever-video-controls>
+      <section class="flex flex-col justify-center items-center">
+        <beever-video></beever-video>
+        <beever-video-controls
+          *ngIf="isActive$ | async"
+        ></beever-video-controls>
+      </section>
       <mat-drawer #drawer mode="side" position="end" opened="true">
         <ng-container [ngSwitch]="activeMenu()">
           <beever-snapshot-container
