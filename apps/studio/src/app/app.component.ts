@@ -55,5 +55,9 @@ export class AppComponent {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/close.svg')
     );
+    iconRegistry.addSvgIcon(
+      'branding',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/branding.svg')
+    );
   }
 }

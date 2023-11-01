@@ -62,3 +62,11 @@ body {
 .backdrop {
   backdrop-filter: blur(4px);
 }
+
+.active-menu-icon {
+  fill: #fc0ef5 !important;
+}
+
+.active-logo {
+  border: 2px #fc0ef5 solid;
+}
