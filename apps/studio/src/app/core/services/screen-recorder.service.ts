@@ -87,6 +87,14 @@ export class ScreenRecorderService {
     downloadRecording(this.recordedBlobs());
   }
 
+  togglePictureInPicture(): void {
+    if (document.pictureInPictureElement) {
+      void document.exitPictureInPicture();
+    } else if (document.pictureInPictureEnabled) {
+      void this.video.requestPictureInPicture();
+    }
+  }
+
   public captureSnapshot(): void {
     captureSnapshot(this.video);
   }

@@ -63,6 +63,15 @@ import { DisabledDirective } from '../../shared/directives/disabled.directive';
         [matRippleCentered]="true"
         class="border-2 border-gray-500 rounded-xl px-2 py-2"
         title="Capture snapshot"
+        (click)="togglePictureInPicture()"
+      >
+        <img src="assets/icons/picture_in_picture.svg" alt="" />
+      </button>
+      <button
+        matRipple
+        [matRippleCentered]="true"
+        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        title="Capture snapshot"
         (click)="captureSnapshot()"
       >
         <img src="assets/icons/capture.svg" alt="" />
@@ -103,5 +112,9 @@ export class VideoControlsComponent {
 
   captureSnapshot(): void {
     this.screenRecorderService.captureSnapshot();
+  }
+
+  togglePictureInPicture(): void {
+    this.screenRecorderService.togglePictureInPicture();
   }
 }
