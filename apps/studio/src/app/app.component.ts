@@ -59,5 +59,9 @@ export class AppComponent {
       'branding',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/palette.svg')
     );
+    iconRegistry.addSvgIcon(
+      'screen_record',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/screen_record.svg')
+    );
   }
 }

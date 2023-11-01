@@ -36,7 +36,7 @@ import { DisabledDirective } from '../../shared/directives/disabled.directive';
         [beeverDisabled]="isRecording$ | async"
         (click)="startRecording()"
       >
-        <img src="assets/icons/play_arrow.svg" alt="" />
+        <img src="assets/icons/screen_record.svg" alt="" />
       </button>
       <button
         matRipple
