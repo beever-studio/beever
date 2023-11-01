@@ -20,30 +20,50 @@ import { RecordMenuComponent } from '../../core/components/record-menu.component
 import { SnapshotContainerComponent } from '../../core/components/snapshot-container.component';
 import { RecordMenu } from '../../core/models/record-menu.model';
 import { BrandingContainerComponent } from '../../core/components/branding-container.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'beever-record',
   standalone: true,
   template: `
-    <mat-drawer-container class="flex-1" autosize>
-      <section class="flex flex-col justify-center items-center">
-        <beever-video></beever-video>
-        <beever-video-controls
-          *ngIf="isActive$ | async"
-        ></beever-video-controls>
-      </section>
-      <mat-drawer #drawer mode="side" position="end" opened="true">
-        <ng-container [ngSwitch]="activeMenu()">
-          <beever-snapshot-container
-            *ngSwitchCase="'snapshot'"
-          ></beever-snapshot-container>
-          <beever-branding-container
-            *ngSwitchCase="'branding'"
-          ></beever-branding-container>
-        </ng-container>
-      </mat-drawer>
-    </mat-drawer-container>
-    <beever-record-menu (toggle)="toggle($event)"></beever-record-menu>
+    <mat-toolbar class="flex justify-end">
+      <button mat-raised-button color="accent" (click)="startRecording()">
+        <mat-icon svgIcon="screen_record"></mat-icon>
+        Record
+      </button>
+      <button mat-raised-button>
+        <mat-icon svgIcon="pause"></mat-icon>
+      </button>
+      <button mat-raised-button color="warn" (click)="stopRecording()">
+        <mat-icon svgIcon="screen_record"></mat-icon>
+        End Recording
+      </button>
+      <button mat-stroked-button (click)="downloadRecording()">
+        <mat-icon svgIcon="download"></mat-icon>
+        Download Recording
+      </button>
+    </mat-toolbar>
+    <section class="flex justify-center items-start w-full mt-16">
+      <mat-drawer-container class="flex-1" autosize>
+        <section class="flex flex-col justify-center items-center">
+          <beever-video></beever-video>
+          <beever-video-controls></beever-video-controls>
+        </section>
+        <mat-drawer #drawer mode="side" position="end" opened="true">
+          <ng-container [ngSwitch]="activeMenu()">
+            <beever-snapshot-container
+              *ngSwitchCase="'snapshot'"
+            ></beever-snapshot-container>
+            <beever-branding-container
+              *ngSwitchCase="'branding'"
+            ></beever-branding-container>
+          </ng-container>
+        </mat-drawer>
+      </mat-drawer-container>
+      <beever-record-menu (toggle)="toggle($event)"></beever-record-menu>
+    </section>
   `,
   imports: [
     VideoComponent,
@@ -57,6 +77,9 @@ import { BrandingContainerComponent } from '../../core/components/branding-conta
     NgSwitch,
     NgSwitchCase,
     BrandingContainerComponent,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
   ],
 })
 export default class RecordComponent {
@@ -68,7 +91,7 @@ export default class RecordComponent {
   @ViewChild('drawer') drawer!: MatDrawer;
 
   @HostBinding('class') get classes() {
-    return 'flex justify-center items-start w-full';
+    return 'flex flex-col justify-center items-start w-full';
   }
 
   toggle(type: RecordMenu): void {
@@ -79,5 +102,17 @@ export default class RecordComponent {
     }
 
     this.activeMenu.set(type);
+  }
+
+  startRecording(): void {
+    this.screenRecorderService.startRecording();
+  }
+
+  stopRecording(): void {
+    this.screenRecorderService.stopRecording();
+  }
+
+  downloadRecording(): void {
+    this.screenRecorderService.download();
   }
 }

@@ -9,14 +9,21 @@ import { HeaderComponent } from './core/components/header.component';
   imports: [RouterModule, HeaderComponent],
   selector: 'beever-root',
   template: `
-    <beever-header></beever-header>
-    <main class="flex flex-col items-center justify-center pt-16">
+    <main class="flex flex-col items-center justify-center">
       <router-outlet></router-outlet>
     </main>
   `,
 })
 export class AppComponent {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'present',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/present.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'pause',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/pause.svg')
+    );
     iconRegistry.addSvgIcon(
       'volume_off',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/volume_off.svg')
@@ -56,12 +63,22 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/close.svg')
     );
     iconRegistry.addSvgIcon(
+      'stop',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/stop.svg')
+    );
+    iconRegistry.addSvgIcon(
       'branding',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/palette.svg')
     );
     iconRegistry.addSvgIcon(
       'screen_record',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/screen_record.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'picture_in_picture',
+      sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/picture_in_picture.svg'
+      )
     );
   }
 }

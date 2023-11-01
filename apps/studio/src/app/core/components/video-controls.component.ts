@@ -1,9 +1,11 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { ScreenRecorderService } from '../services/screen-recorder.service';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DisabledDirective } from '../../shared/directives/disabled.directive';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'beever-video-controls',
@@ -11,74 +13,48 @@ import { DisabledDirective } from '../../shared/directives/disabled.directive';
   template: `
     <section class="flex items-center justify-center gap-4 p-2">
       <button
-        matRipple
-        [matRippleCentered]="true"
-        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        mat-fab
+        class="!bg-white"
         title="Select screen"
         (click)="selectScreen()"
       >
-        <img src="assets/icons/screen_selection.svg" alt="" />
+        <mat-icon svgIcon="present"></mat-icon>
       </button>
       <button
-        matRipple
-        [matRippleCentered]="true"
-        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        mat-fab
+        class="!bg-white"
         title="Stop presentation"
         (click)="stopPresentation()"
       >
-        <img src="assets/icons/cancel_presentation.svg" alt="" />
+        <mat-icon svgIcon="cancel_presentation"></mat-icon>
       </button>
       <button
-        matRipple
-        [matRippleCentered]="true"
-        class="border-2 border-gray-500 rounded-xl px-2 py-2"
-        title="Start recording"
-        [beeverDisabled]="isRecording$ | async"
-        (click)="startRecording()"
-      >
-        <img src="assets/icons/screen_record.svg" alt="" />
-      </button>
-      <button
-        matRipple
-        [matRippleCentered]="true"
-        class="border-2 border-gray-500 rounded-xl px-2 py-2"
-        title="Stop recording"
-        [beeverDisabled]="(isRecording$ | async) === false"
-        (click)="stopRecording()"
-      >
-        <img src="assets/icons/stop.svg" alt="" />
-      </button>
-      <button
-        matRipple
-        [matRippleCentered]="true"
-        class="border-2 border-gray-500 rounded-xl px-2 py-2"
-        title="Download recording"
-        [beeverDisabled]="(isStopped$ | async) === false"
-        (click)="downloadRecording()"
-      >
-        <img src="assets/icons/download.svg" alt="" />
-      </button>
-      <button
-        matRipple
-        [matRippleCentered]="true"
-        class="border-2 border-gray-500 rounded-xl px-2 py-2"
-        title="Capture snapshot"
+        mat-fab
+        title="Picture in picture"
+        class="!bg-white"
         (click)="togglePictureInPicture()"
       >
-        <img src="assets/icons/picture_in_picture.svg" alt="" />
+        <mat-icon svgIcon="picture_in_picture"></mat-icon>
       </button>
       <button
-        matRipple
-        [matRippleCentered]="true"
-        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        mat-fab
         title="Capture snapshot"
+        class="!bg-white"
         (click)="captureSnapshot()"
       >
-        <img src="assets/icons/capture.svg" alt="" />
+        <mat-icon svgIcon="capture"></mat-icon>
       </button>
     </section>
   `,
-  imports: [NgIf, AsyncPipe, MatRippleModule, DisabledDirective],
+  imports: [
+    NgIf,
+    AsyncPipe,
+    MatRippleModule,
+    DisabledDirective,
+    MatIconModule,
+    MatButtonModule,
+    NgClass,
+  ],
 })
 export class VideoControlsComponent {
   screenRecorderService = inject(ScreenRecorderService);
@@ -96,18 +72,6 @@ export class VideoControlsComponent {
 
   stopPresentation(): void {
     this.screenRecorderService.stopPresentation();
-  }
-
-  startRecording(): void {
-    this.screenRecorderService.startRecording();
-  }
-
-  stopRecording(): void {
-    this.screenRecorderService.stopRecording();
-  }
-
-  downloadRecording(): void {
-    this.screenRecorderService.download();
   }
 
   captureSnapshot(): void {
