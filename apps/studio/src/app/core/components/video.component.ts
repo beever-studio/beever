@@ -25,7 +25,6 @@ import { MatButtonModule } from '@angular/material/button';
       class="flex justify-center items-center rounded-lg border-2 border-primary p-2 bg-black w-[640px] h-[480px]"
     >
       <video
-        class="block ml-4"
         cdkOverlayOrigin
         #trigger="cdkOverlayOrigin"
         #video
