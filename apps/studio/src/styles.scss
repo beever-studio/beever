@@ -70,3 +70,7 @@ body {
 .active-logo {
   border: 2px #fc0ef5 solid;
 }
+
+.mat-drawer-side.mat-drawer-end {
+  border: none !important;
+}
