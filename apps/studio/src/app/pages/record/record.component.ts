@@ -34,7 +34,7 @@ import { BannerContainerComponent } from '../../core/components/banner-container
       </button>
       -->
     </mat-toolbar>
-    <section class="flex justify-center w-full h-full mt-16 gap-4">
+    <section class="flex justify-center w-full h-full mt-8 gap-4">
       <section class="flex flex-col justify-center items-center gap-2">
         <beever-video></beever-video>
         <beever-video-controls></beever-video-controls>
