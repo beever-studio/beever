@@ -21,6 +21,18 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/present.svg')
     );
     iconRegistry.addSvgIcon(
+      'logo',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'chat',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/chat.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'banner',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/banner.svg')
+    );
+    iconRegistry.addSvgIcon(
       'pause',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/pause.svg')
     );
