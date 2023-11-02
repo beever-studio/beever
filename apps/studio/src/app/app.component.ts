@@ -41,6 +41,10 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/pause.svg')
     );
     iconRegistry.addSvgIcon(
+      'add',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/add.svg')
+    );
+    iconRegistry.addSvgIcon(
       'volume_off',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/volume_off.svg')
     );

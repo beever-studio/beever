@@ -37,11 +37,10 @@ import { MatIconModule } from '@angular/material/icon';
           <form>
             <button
               type="button"
-              mat-raised-button
-              color="primary"
+              class="border-2 border-white rounded p-1 h-20 w-20"
               (click)="logo.click()"
             >
-              Upload logo
+              <mat-icon svgIcon="add"></mat-icon>
             </button>
             <input
               #logo
