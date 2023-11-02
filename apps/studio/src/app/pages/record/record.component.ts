@@ -10,12 +10,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BannerContainerComponent } from '../../core/components/banner-container.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'beever-record',
   standalone: true,
   template: `
-    <mat-toolbar class="flex justify-end">
+    <mat-toolbar class="flex justify-between">
+      <a routerLink="/" class="font-caveat text-4xl text-white"> BEEVER </a>
       <button mat-raised-button color="accent" (click)="startRecording()">
         <mat-icon svgIcon="screen_record"></mat-icon>
         Record
@@ -91,6 +93,7 @@ import { BannerContainerComponent } from '../../core/components/banner-container
     MatIconModule,
     MatCardModule,
     MatTabsModule,
+    RouterLink,
   ],
 })
 export default class RecordComponent {
