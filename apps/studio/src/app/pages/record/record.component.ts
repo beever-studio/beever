@@ -37,7 +37,7 @@ import { BannerContainerComponent } from '../../core/components/banner-container
         <beever-video></beever-video>
         <beever-video-controls></beever-video-controls>
       </section>
-      <mat-card class="min-h-full">
+      <mat-card class="min-h-full max-w-[568px]">
         <mat-tab-group>
           <mat-tab>
             <ng-template mat-tab-label>

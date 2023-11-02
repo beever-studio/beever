@@ -25,6 +25,10 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg')
     );
     iconRegistry.addSvgIcon(
+      'background',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/background.svg')
+    );
+    iconRegistry.addSvgIcon(
       'mic',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/mic.svg')
     );

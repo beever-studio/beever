@@ -18,41 +18,70 @@ import { MatIconModule } from '@angular/material/icon';
     NgClass,
     MatIconModule,
   ],
-  template: ` <h2 class="text-2xl flex items-center mb-4">
-      <mat-icon svgIcon="logo"></mat-icon>
+  template: `
+    <h2 class="text-2xl flex items-center mb-4">
+      <mat-icon class="mr-2" svgIcon="logo"></mat-icon>
       Logo
     </h2>
-    <section class="w-72 flex flex-col items-center gap-2">
-      <ul class="flex justify-center flex-wrap gap-1 m-1">
-        <li *ngFor="let logo of logos()">
-          <button
-            class="rounded p-1 border-2 border-transparent"
-            [ngClass]="{ 'active-logo': activeLogo() === logo }"
-            (click)="activateLogo(logo)"
-          >
-            <img class="h-20 w-auto rounded" [src]="logo" alt="" />
-          </button>
-        </li>
-        <li>
-          <form>
-            <button
-              type="button"
-              class="border-2 border-white rounded p-1 h-20 w-20"
-              (click)="logo.click()"
-            >
-              <mat-icon svgIcon="add"></mat-icon>
-            </button>
-            <input
-              #logo
-              (input)="uploadLogo($event)"
-              class="hidden"
-              type="file"
-              accept="image/png, image/jpeg, image/jpg"
-            />
-          </form>
-        </li>
-      </ul>
-    </section>`,
+    <ul class="flex flex-wrap gap-1 m-1">
+      <li *ngFor="let logo of logos()">
+        <button
+          class="rounded p-1 border-2 border-transparent"
+          [ngClass]="{ 'active-logo': activeLogo() === logo }"
+          (click)="activateLogo(logo)"
+        >
+          <img class="h-32 w-auto rounded" [src]="logo" alt="" />
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="border-2 border-white rounded m-2 h-32 w-32"
+          (click)="logo.click()"
+        >
+          <mat-icon svgIcon="add"></mat-icon>
+        </button>
+        <input
+          #logo
+          (input)="uploadLogo($event)"
+          class="hidden"
+          type="file"
+          accept="image/png, image/jpeg, image/jpg"
+        />
+      </li>
+    </ul>
+    <h2 class="text-2xl flex items-center my-4">
+      <mat-icon class="mr-2" svgIcon="background"></mat-icon>
+      Background
+    </h2>
+    <ul class="flex justify-center flex-wrap gap-1 m-1">
+      <li *ngFor="let background of backgrounds()">
+        <button
+          class="rounded p-1 border-2 border-transparent"
+          [ngClass]="{ 'active-logo': activeBackground() === background }"
+          (click)="activateBackground(background)"
+        >
+          <img class="h-36 w-64 rounded" [src]="background" alt="" />
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="border-2 border-white rounded m-2 h-36 w-64"
+          (click)="background.click()"
+        >
+          <mat-icon class="scale-150" svgIcon="add"></mat-icon>
+        </button>
+        <input
+          #background
+          (input)="uploadBackground($event)"
+          class="hidden"
+          type="file"
+          accept="image/png, image/jpeg, image/jpg"
+        />
+      </li>
+    </ul>
+  `,
 })
 export class BrandingContainerComponent implements OnInit {
   screenRecorderService = inject(ScreenRecorderService);
@@ -81,11 +110,29 @@ export class BrandingContainerComponent implements OnInit {
     }
   }
 
+  uploadBackground(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files && target.files[0];
+
+    if (file) {
+      const src = URL.createObjectURL(file);
+      this.backgrounds.update((logos) => [...logos, src]);
+    }
+  }
+
   activateLogo(logo: string): void {
     this.activeLogo.update((currentlogo) =>
       currentlogo === logo ? null : logo
     );
     this.screenRecorderService.setLogo(this.activeLogo());
+    this.screenRecorderService.renderCanvas();
+  }
+
+  activateBackground(background: string): void {
+    this.activeBackground.update((currentBackground) =>
+      currentBackground === background ? null : background
+    );
+    this.screenRecorderService.setBackground(this.activeBackground());
     this.screenRecorderService.renderCanvas();
   }
 }

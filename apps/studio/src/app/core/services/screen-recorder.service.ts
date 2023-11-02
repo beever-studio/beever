@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { combineLatest, defer, filter, map, Observable, take, tap } from 'rxjs';
 import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -56,6 +56,12 @@ export class ScreenRecorderService {
   );
 
   snapshots$ = toObservable(this.snapshots);
+
+  constructor() {
+    effect(() => {
+      console.log('foo', this.logo());
+    });
+  }
 
   public getStream(): Observable<MediaStream> {
     this.status.set(ScreenRecorderStatus.SELECTING);
