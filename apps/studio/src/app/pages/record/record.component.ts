@@ -20,6 +20,7 @@ import { BannerContainerComponent } from '../../core/components/banner-container
         <mat-icon svgIcon="screen_record"></mat-icon>
         Record
       </button>
+      <!--
       <button mat-raised-button>
         <mat-icon svgIcon="pause"></mat-icon>
       </button>
@@ -31,6 +32,7 @@ import { BannerContainerComponent } from '../../core/components/banner-container
         <mat-icon svgIcon="download"></mat-icon>
         Download Recording
       </button>
+      -->
     </mat-toolbar>
     <section class="flex justify-center w-full h-full mt-16 gap-4">
       <section class="flex flex-col justify-center items-center gap-2">
