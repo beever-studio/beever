@@ -1,11 +1,12 @@
 import { Injectable, signal } from '@angular/core';
-import { defer, filter, map, Observable, take, tap } from 'rxjs';
+import { combineLatest, defer, filter, map, Observable, take, tap } from 'rxjs';
 import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { captureSnapshot } from '../../shared/utils/capture-snapshot.util';
 import { getSupportedMimeTypes } from '../../shared/utils/mime-type.util';
 import { downloadRecording } from '../../shared/utils/download-recording.util';
 import { imageLoader } from '../../shared/utils/image-loader.util';
+import { htmlLoader } from '../../shared/utils/html-loader.util';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,10 @@ export class ScreenRecorderService {
   status = signal(ScreenRecorderStatus.INACTIVE);
 
   /* overlays */
-  logo = signal<string | null>(null);
+  logo = signal<HTMLImageElement | null>(null);
+  banner = signal<HTMLImageElement | null>(null);
+
+  assets$ = combineLatest([toObservable(this.logo), toObservable(this.banner)]);
 
   supportedMimeTypes = getSupportedMimeTypes();
 
@@ -114,6 +118,34 @@ export class ScreenRecorderService {
     );
   }
 
+  public setLogo(logo: string | null): void {
+    if (!logo) {
+      this.logo.set(null);
+      return;
+    }
+
+    imageLoader(logo)
+      .pipe(take(1))
+      .subscribe((image) => {
+        this.logo.set(image);
+        this.renderCanvas();
+      });
+  }
+
+  public setBanner(banner: string | null): void {
+    if (!banner) {
+      this.banner.set(null);
+      return;
+    }
+
+    htmlLoader(banner)
+      .pipe(take(1))
+      .subscribe((image) => {
+        this.banner.set(image);
+        this.renderCanvas();
+      });
+  }
+
   private getDisplayMedia(): Promise<MediaStream> {
     return navigator.mediaDevices.getDisplayMedia({
       video: {
@@ -136,21 +168,20 @@ export class ScreenRecorderService {
     const context = this.canvas.getContext('2d');
 
     if (context) {
-      const logo = this.logo();
-      console.log('logo', logo);
-
-      if (logo) {
-        imageLoader(logo)
-          .pipe(take(1))
-          .subscribe((image) => {
-            context.drawImage(this.video, 0, 0, 854, 480);
-            context.drawImage(image, 764, 10, 80, 80);
-            window.requestAnimationFrame(this.renderCanvas.bind(this));
-          });
-      } else {
+      this.assets$.pipe(take(1)).subscribe(([logo, banner]) => {
         context.drawImage(this.video, 0, 0, 854, 480);
+
+        if (logo) {
+          context.drawImage(logo, 764, 10, 80, 80);
+        }
+
+        if (banner) {
+          console.log('banner', banner);
+          context.drawImage(banner, 50, 50, 80, 80);
+        }
+
         window.requestAnimationFrame(this.renderCanvas.bind(this));
-      }
+      });
     }
   }
 

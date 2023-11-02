@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { BannerContainerComponent } from '../../core/components/banner-container.component';
 
 @Component({
   selector: 'beever-record',
@@ -63,6 +64,7 @@ import { MatTabsModule } from '@angular/material/tabs';
                 Banners
               </div>
             </ng-template>
+            <beever-banner-container></beever-banner-container>
           </mat-tab>
           <mat-tab>
             <ng-template mat-tab-label>
@@ -81,6 +83,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     VideoControlsComponent,
     SnapshotContainerComponent,
     BrandingContainerComponent,
+    BannerContainerComponent,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,

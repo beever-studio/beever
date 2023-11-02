@@ -64,7 +64,7 @@ export class BrandingContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.screenRecorderService.logo.set(this.activeLogo());
+    this.screenRecorderService.setLogo(this.activeLogo());
   }
 
   uploadLogo(event: Event): void {
@@ -81,7 +81,7 @@ export class BrandingContainerComponent implements OnInit {
     this.activeLogo.update((currentlogo) =>
       currentlogo === logo ? null : logo
     );
-    this.screenRecorderService.logo.set(this.activeLogo());
+    this.screenRecorderService.setLogo(this.activeLogo());
     this.screenRecorderService.renderCanvas();
   }
 }
