@@ -59,12 +59,16 @@ export class BrandingContainerComponent implements OnInit {
   logos = signal<string[]>(['assets/images/logo.png']);
   activeLogo = signal<string | null>(this.logos()[0]);
 
+  backgrounds = signal<string[]>(['assets/images/background.webp']);
+  activeBackground = signal<string | null>(this.backgrounds()[0]);
+
   @HostBinding('class') get class() {
     return 'pt-4 px-2 block';
   }
 
   ngOnInit() {
     this.screenRecorderService.setLogo(this.activeLogo());
+    this.screenRecorderService.setBackground(this.activeBackground());
   }
 
   uploadLogo(event: Event): void {

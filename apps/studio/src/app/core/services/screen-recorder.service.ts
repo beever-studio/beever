@@ -20,8 +20,13 @@ export class ScreenRecorderService {
   /* overlays */
   logo = signal<HTMLImageElement | null>(null);
   banner = signal<HTMLImageElement | null>(null);
+  background = signal<HTMLImageElement | null>(null);
 
-  assets$ = combineLatest([toObservable(this.logo), toObservable(this.banner)]);
+  assets$ = combineLatest([
+    toObservable(this.logo),
+    toObservable(this.banner),
+    toObservable(this.background),
+  ]);
 
   supportedMimeTypes = getSupportedMimeTypes();
 
@@ -146,6 +151,20 @@ export class ScreenRecorderService {
       });
   }
 
+  public setBackground(background: string | null): void {
+    if (!background) {
+      this.background.set(null);
+      return;
+    }
+
+    imageLoader(background)
+      .pipe(take(1))
+      .subscribe((image) => {
+        this.background.set(image);
+        this.renderCanvas();
+      });
+  }
+
   private getDisplayMedia(): Promise<MediaStream> {
     return navigator.mediaDevices.getDisplayMedia({
       video: {
@@ -168,8 +187,12 @@ export class ScreenRecorderService {
     const context = this.canvas.getContext('2d');
 
     if (context) {
-      this.assets$.pipe(take(1)).subscribe(([logo, banner]) => {
+      this.assets$.pipe(take(1)).subscribe(([logo, banner, background]) => {
         context.drawImage(this.video, 0, 0, 854, 480);
+
+        if (background) {
+          context.drawImage(background, 0, 0, 854, 480);
+        }
 
         if (logo) {
           context.drawImage(logo, 764, 10, 80, 80);
