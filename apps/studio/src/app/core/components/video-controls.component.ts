@@ -36,6 +36,7 @@ import { MatButtonModule } from '@angular/material/button';
       >
         <mat-icon svgIcon="present"></mat-icon>
       </button>
+      <!--
       <button
         mat-fab
         class="!bg-white"
@@ -52,6 +53,7 @@ import { MatButtonModule } from '@angular/material/button';
       >
         <mat-icon svgIcon="picture_in_picture"></mat-icon>
       </button>
+      -->
       <button
         mat-fab
         title="Capture snapshot"
