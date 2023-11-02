@@ -32,12 +32,12 @@ import { BannerContainerComponent } from '../../core/components/banner-container
         Download Recording
       </button>
     </mat-toolbar>
-    <section class="flex justify-center items-start w-full mt-16">
-      <section class="flex flex-col justify-center items-center">
+    <section class="flex justify-center w-full h-full mt-16 gap-4">
+      <section class="flex flex-col justify-center items-center gap-2">
         <beever-video></beever-video>
         <beever-video-controls></beever-video-controls>
       </section>
-      <mat-card>
+      <mat-card class="min-h-full">
         <mat-tab-group>
           <mat-tab>
             <ng-template mat-tab-label>
