@@ -15,6 +15,22 @@ import { MatButtonModule } from '@angular/material/button';
       <button
         mat-fab
         class="!bg-white"
+        title="Select mic"
+        (click)="selectScreen()"
+      >
+        <mat-icon svgIcon="mic"></mat-icon>
+      </button>
+      <button
+        mat-fab
+        class="!bg-white"
+        title="Select cam"
+        (click)="selectScreen()"
+      >
+        <mat-icon svgIcon="videocam"></mat-icon>
+      </button>
+      <button
+        mat-fab
+        class="!bg-white"
         title="Select screen"
         (click)="selectScreen()"
       >
