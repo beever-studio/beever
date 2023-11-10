@@ -57,12 +57,6 @@ export class ScreenRecorderService {
 
   snapshots$ = toObservable(this.snapshots);
 
-  constructor() {
-    effect(() => {
-      console.log('foo', this.logo());
-    });
-  }
-
   public getStream(): Observable<MediaStream> {
     this.status.set(ScreenRecorderStatus.SELECTING);
     return defer(() => this.getDisplayMedia()).pipe(
