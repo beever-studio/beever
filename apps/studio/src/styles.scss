@@ -19,7 +19,7 @@ $studio-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$studio-theme: mat.define-dark-theme(
+$studio-theme: mat.define-light-theme(
   (
     color: (
       primary: $studio-primary,
