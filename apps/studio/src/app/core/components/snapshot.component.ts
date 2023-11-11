@@ -53,12 +53,12 @@ import { NgClass } from '@angular/common';
     >
       <ul class="flex gap-2 mt-2 mr-2">
         <li>
-          <button mat-mini-fab color="primary" (click)="download()">
+          <button mat-mini-fab class="!bg-white" (click)="download()">
             <mat-icon svgIcon="download"></mat-icon>
           </button>
         </li>
         <li>
-          <button mat-mini-fab color="primary" (click)="delete.emit()">
+          <button mat-mini-fab class="!bg-white" (click)="delete.emit()">
             <mat-icon svgIcon="delete"></mat-icon>
           </button>
         </li>
