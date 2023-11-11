@@ -1,4 +1,4 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { combineLatest, defer, filter, map, Observable, take, tap } from 'rxjs';
 import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -188,11 +188,11 @@ export class ScreenRecorderService {
 
     if (context) {
       this.assets$.pipe(take(1)).subscribe(([logo, banner, background]) => {
-        context.drawImage(this.video, 0, 0, 854, 480);
-
         if (background) {
           context.drawImage(background, 0, 0, 854, 480);
         }
+
+        context.drawImage(this.video, 0, 0, 854, 480);
 
         if (logo) {
           context.drawImage(logo, 764, 10, 80, 80);
