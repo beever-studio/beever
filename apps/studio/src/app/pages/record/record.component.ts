@@ -37,12 +37,14 @@ import { MatBadgeModule } from '@angular/material/badge';
       </button>
       -->
     </header>
-    <section class="flex justify-center w-full h-full gap-4">
-      <section class="w-full flex flex-col justify-center items-center gap-2">
+    <section class="flex justify-center items-start w-full h-full gap-4">
+      <section
+        class="w-full flex flex-col justify-center items-center gap-2 m-2"
+      >
         <beever-video></beever-video>
         <beever-video-controls></beever-video-controls>
       </section>
-      <mat-card class="min-h-full max-w-[568px]">
+      <div class="min-h-full max-w-[568px]">
         <mat-tab-group>
           <mat-tab>
             <ng-template mat-tab-label>
@@ -86,7 +88,7 @@ import { MatBadgeModule } from '@angular/material/badge';
             </ng-template>
           </mat-tab>
         </mat-tab-group>
-      </mat-card>
+      </div>
     </section>
   `,
   imports: [
