@@ -22,6 +22,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ZoomComponent } from './zoom.component';
 import { downloadSnapshot } from '../../shared/utils/download-snapshot.util';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'beever-snapshot',
@@ -32,10 +33,12 @@ import { downloadSnapshot } from '../../shared/utils/download-snapshot.util';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    NgClass,
   ],
   template: `
     <img
       class="w-60 h-auto cursor-pointer"
+      [ngClass]="{ backdrop: isOpen() }"
       [src]="snapshot"
       alt=""
       cdkOverlayOrigin

@@ -60,7 +60,8 @@ body {
 }
 
 .backdrop {
-  backdrop-filter: blur(4px);
+  filter: blur(2px) grayscale(1);
+  background-color: red;
 }
 
 .active-menu-icon {
