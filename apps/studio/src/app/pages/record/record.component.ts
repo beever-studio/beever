@@ -17,8 +17,8 @@ import { MatBadgeModule } from '@angular/material/badge';
   selector: 'beever-record',
   standalone: true,
   template: `
-    <mat-toolbar class="flex justify-between">
-      <a routerLink="/" class="font-caveat text-4xl text-white"> BEEVER </a>
+    <header class="flex justify-between w-full p-4">
+      <a routerLink="/" class="font-caveat text-4xl"> BEEVER </a>
       <button mat-raised-button color="accent" (click)="startRecording()">
         <mat-icon svgIcon="screen_record"></mat-icon>
         Record
@@ -36,7 +36,7 @@ import { MatBadgeModule } from '@angular/material/badge';
         Download Recording
       </button>
       -->
-    </mat-toolbar>
+    </header>
     <section class="flex justify-center w-full h-full mt-8 gap-4">
       <section class="w-full flex flex-col justify-center items-center gap-2">
         <beever-video></beever-video>
