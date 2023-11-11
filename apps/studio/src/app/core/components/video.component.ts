@@ -12,7 +12,7 @@ import { ScreenRecorderService } from '../services/screen-recorder.service';
   standalone: true,
   template: `
     <div
-      class="flex justify-center items-center rounded-lg border-2 border-primary p-2 bg-black w-[854px] h-[480px]"
+      class="flex justify-center items-center rounded-lg border-2 border-primary p-2 bg-black max-w-[854px] max-h-[480px]"
     >
       <video
         class="hidden"
@@ -25,6 +25,15 @@ import { ScreenRecorderService } from '../services/screen-recorder.service';
       ></video>
       <canvas #canvas width="854" height="480"></canvas>
     </div>
+  `,
+  styles: `
+  :host {
+    width: 100%;
+  }
+  canvas {
+    width: 100%;
+    object-fit: contain
+    }
   `,
 })
 export class VideoComponent implements AfterViewInit {

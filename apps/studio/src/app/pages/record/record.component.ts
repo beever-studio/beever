@@ -37,7 +37,7 @@ import { RouterLink } from '@angular/router';
       -->
     </mat-toolbar>
     <section class="flex justify-center w-full h-full mt-8 gap-4">
-      <section class="flex flex-col justify-center items-center gap-2">
+      <section class="w-full flex flex-col justify-center items-center gap-2">
         <beever-video></beever-video>
         <beever-video-controls></beever-video-controls>
       </section>
