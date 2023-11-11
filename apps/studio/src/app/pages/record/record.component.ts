@@ -37,7 +37,7 @@ import { MatBadgeModule } from '@angular/material/badge';
       </button>
       -->
     </header>
-    <section class="flex justify-center w-full h-full mt-8 gap-4">
+    <section class="flex justify-center w-full h-full gap-4">
       <section class="w-full flex flex-col justify-center items-center gap-2">
         <beever-video></beever-video>
         <beever-video-controls></beever-video-controls>
