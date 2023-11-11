@@ -1,4 +1,4 @@
-import { Component, HostBinding, inject } from '@angular/core';
+import { Component, computed, HostBinding, inject } from '@angular/core';
 import { VideoComponent } from '../../core/components/video.component';
 import { VideoControlsComponent } from '../../core/components/video-controls.component';
 import { ScreenRecorderService } from '../../core/services/screen-recorder.service';
@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BannerContainerComponent } from '../../core/components/banner-container.component';
 import { RouterLink } from '@angular/router';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'beever-record',
@@ -56,7 +57,13 @@ import { RouterLink } from '@angular/router';
             <ng-template mat-tab-label>
               <div class="flex flex-col justify-center items-center">
                 <mat-icon svgIcon="capture"></mat-icon>
-                Snapshots
+                <span
+                  [matBadge]="snapshotCount()"
+                  matBadgeSize="small"
+                  [matBadgeHidden]="!snapshotCount()"
+                  matBadgePosition="above after"
+                  >Snapshots</span
+                >
               </div>
             </ng-template>
             <beever-snapshot-container></beever-snapshot-container>
@@ -94,10 +101,13 @@ import { RouterLink } from '@angular/router';
     MatCardModule,
     MatTabsModule,
     RouterLink,
+    MatBadgeModule,
   ],
 })
 export default class RecordComponent {
   screenRecorderService = inject(ScreenRecorderService);
+
+  snapshotCount = computed(() => this.screenRecorderService.snapshots().length);
 
   @HostBinding('class') get classes() {
     return 'flex flex-col justify-center items-start w-full';
