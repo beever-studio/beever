@@ -31,6 +31,7 @@ export class ScreenRecorderService {
 
   video!: HTMLVideoElement;
   canvas!: HTMLCanvasElement;
+  cameras: HTMLVideoElement[] = [];
 
   isInactive$ = toObservable(this.status).pipe(
     filter((status) => status === ScreenRecorderStatus.INACTIVE)
@@ -187,7 +188,19 @@ export class ScreenRecorderService {
           context.drawImage(background, 0, 0, 854, 480);
         }
 
-        context.drawImage(this.video, 0, 0, 854, 480);
+        if (this.video.srcObject) {
+          context.drawImage(this.video, 0, 0, 854, 480);
+        }
+
+        if (this.cameras.length) {
+          // show first camera in right bottom corner
+          context.drawImage(this.cameras[0], 684, 380, 160, 90);
+          /*
+          this.cameras.forEach((camera, index) => {
+            context.drawImage(camera, 10 + (index * 170), 10, 160, 90);
+          });
+           */
+        }
 
         if (logo) {
           context.drawImage(logo, 764, 10, 80, 80);
