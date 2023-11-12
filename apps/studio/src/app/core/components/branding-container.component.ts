@@ -29,17 +29,17 @@ import { BackgroundComponent } from './background.component';
     <ul class="flex flex-wrap gap-1 m-1">
       <li *ngFor="let logo of logos()">
         <button
-          class="rounded p-1 border-2 border-transparent"
+          class="rounded p-1 border-2 border-transparent hover:border-violet-800"
           [ngClass]="{ 'active-logo': activeLogo() === logo }"
           (click)="activateLogo(logo)"
         >
-          <img class="h-32 w-auto rounded" [src]="logo" alt="" />
+          <img class="h-20 w-auto rounded" [src]="logo" alt="" />
         </button>
       </li>
       <li>
         <button
           type="button"
-          class="border-2 border-white rounded m-2 h-32 w-32"
+          class="border-2 border-gray-300 rounded h-[5.75rem] w-[5.75rem]"
           (click)="logo.click()"
         >
           <mat-icon svgIcon="add"></mat-icon>
