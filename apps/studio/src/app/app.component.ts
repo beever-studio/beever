@@ -45,6 +45,12 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/visibility.svg')
     );
     iconRegistry.addSvgIcon(
+      'visibility_off',
+      sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/visibility_off.svg'
+      )
+    );
+    iconRegistry.addSvgIcon(
       'more_vert',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/more_vert.svg')
     );

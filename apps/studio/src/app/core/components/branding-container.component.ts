@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { ScreenRecorderService } from '../services/screen-recorder.service';
 import { MatIconModule } from '@angular/material/icon';
+import { Background } from '../models/background.model';
+import { BackgroundComponent } from './background.component';
 
 @Component({
   selector: 'beever-branding-container',
@@ -17,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     NgClass,
     MatIconModule,
+    BackgroundComponent,
   ],
   template: `
     <h2 class="text-2xl flex items-center mb-4">
@@ -54,20 +57,20 @@ import { MatIconModule } from '@angular/material/icon';
       <mat-icon class="mr-2" svgIcon="background"></mat-icon>
       Background
     </h2>
-    <ul class="flex justify-center flex-wrap gap-1 m-1">
+    <ul class="flex flex-col gap-2 m-1">
       <li *ngFor="let background of backgrounds()">
-        <button
-          class="rounded p-1 border-2 border-transparent"
-          [ngClass]="{ 'active-logo': activeBackground() === background }"
-          (click)="activateBackground(background)"
+        <beever-background
+          [background]="background"
+          [isActive]="activeBackground() === background"
+          (activate)="activateBackground(background)"
+          (delete)="deleteBackground(background)"
         >
-          <img class="h-36 w-64 rounded" [src]="background" alt="" />
-        </button>
+        </beever-background>
       </li>
       <li>
         <button
           type="button"
-          class="border-2 border-white rounded m-2 h-36 w-64"
+          class="border-2 border-gray-300 rounded h-[5rem] w-full"
           (click)="background.click()"
         >
           <mat-icon class="scale-150" svgIcon="add"></mat-icon>
@@ -88,8 +91,13 @@ export class BrandingContainerComponent implements OnInit {
   logos = signal<string[]>(['assets/images/logo.png']);
   activeLogo = signal<string | null>(this.logos()[0]);
 
-  backgrounds = signal<string[]>(['assets/images/background.webp']);
-  activeBackground = signal<string | null>(this.backgrounds()[0]);
+  backgrounds = signal<Background[]>([
+    {
+      name: 'background',
+      url: 'assets/images/background.webp',
+    },
+  ]);
+  activeBackground = signal<Background | undefined>(this.backgrounds()[0]);
 
   @HostBinding('class') get class() {
     return 'pt-4 px-2 block';
@@ -97,7 +105,7 @@ export class BrandingContainerComponent implements OnInit {
 
   ngOnInit() {
     this.screenRecorderService.setLogo(this.activeLogo());
-    this.screenRecorderService.setBackground(this.activeBackground());
+    this.screenRecorderService.setBackground(this.activeBackground()?.url);
   }
 
   uploadLogo(event: Event): void {
@@ -116,7 +124,13 @@ export class BrandingContainerComponent implements OnInit {
 
     if (file) {
       const src = URL.createObjectURL(file);
-      this.backgrounds.update((logos) => [...logos, src]);
+      this.backgrounds.update((logos) => [
+        ...logos,
+        {
+          name: file.name,
+          url: src,
+        },
+      ]);
     }
   }
 
@@ -128,11 +142,18 @@ export class BrandingContainerComponent implements OnInit {
     this.screenRecorderService.renderCanvas();
   }
 
-  activateBackground(background: string): void {
+  activateBackground(background: Background): void {
     this.activeBackground.update((currentBackground) =>
-      currentBackground === background ? null : background
+      currentBackground === background ? undefined : background
     );
-    this.screenRecorderService.setBackground(this.activeBackground());
+    this.screenRecorderService.setBackground(this.activeBackground()?.url);
+    this.screenRecorderService.renderCanvas();
+  }
+
+  deleteBackground(background: Background): void {
+    this.backgrounds.update((backgrounds) =>
+      backgrounds.filter((b) => b !== background)
+    );
     this.screenRecorderService.renderCanvas();
   }
 }

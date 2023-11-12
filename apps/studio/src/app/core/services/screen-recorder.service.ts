@@ -20,7 +20,7 @@ export class ScreenRecorderService {
   /* overlays */
   logo = signal<HTMLImageElement | null>(null);
   banner = signal<HTMLImageElement | null>(null);
-  background = signal<HTMLImageElement | null>(null);
+  background = signal<HTMLImageElement | undefined>(undefined);
 
   assets$ = combineLatest([
     toObservable(this.logo),
@@ -151,13 +151,13 @@ export class ScreenRecorderService {
       });
   }
 
-  public setBackground(background: string | null): void {
-    if (!background) {
-      this.background.set(null);
+  public setBackground(url: string | undefined): void {
+    if (!url) {
+      this.background.set(undefined);
       return;
     }
 
-    imageLoader(background)
+    imageLoader(url)
       .pipe(take(1))
       .subscribe((image) => {
         this.background.set(image);
