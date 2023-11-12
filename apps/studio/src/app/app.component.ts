@@ -34,6 +34,8 @@ export class AppComponent {
     'branding',
     'screen_record',
     'picture_in_picture',
+    'landscape',
+    'portrait',
   ];
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {

@@ -62,6 +62,14 @@ import { MatButtonModule } from '@angular/material/button';
       >
         <mat-icon svgIcon="capture"></mat-icon>
       </button>
+      <button
+        mat-fab
+        title="Video Format"
+        class="!bg-white"
+        (click)="toggleFormat()"
+      >
+        <mat-icon svgIcon="landscape"></mat-icon>
+      </button>
     </section>
   `,
   imports: [
@@ -98,5 +106,9 @@ export class VideoControlsComponent {
 
   togglePictureInPicture(): void {
     this.screenRecorderService.togglePictureInPicture();
+  }
+
+  toggleFormat(): void {
+    // TODO: implement
   }
 }
