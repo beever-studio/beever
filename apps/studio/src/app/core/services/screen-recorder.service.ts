@@ -20,6 +20,7 @@ export class ScreenRecorderService {
   logo = signal<HTMLImageElement | null>(null);
   banner = signal<string | undefined>(undefined);
   background = signal<HTMLImageElement | undefined>(undefined);
+  color = signal<string>('#FFFFFF');
 
   assets$ = combineLatest([
     toObservable(this.logo),
@@ -154,6 +155,11 @@ export class ScreenRecorderService {
       });
   }
 
+  setColor(color: string): void {
+    this.color.set(color);
+    this.renderCanvas();
+  }
+
   private getDisplayMedia(): Promise<MediaStream> {
     return navigator.mediaDevices.getDisplayMedia({
       video: {
@@ -197,8 +203,8 @@ export class ScreenRecorderService {
             metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
           // const actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
 
-          context.strokeStyle = 'orange';
-          context.fillStyle = 'orange';
+          context.strokeStyle = this.color();
+          context.fillStyle = this.color();
           context.fill();
           context.beginPath();
           context.roundRect(

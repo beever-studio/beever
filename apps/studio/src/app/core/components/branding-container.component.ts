@@ -54,6 +54,17 @@ import { BackgroundComponent } from './background.component';
       </li>
     </ul>
     <h2 class="text-2xl flex items-center my-4">
+      <mat-icon class="mr-2" svgIcon="branding_color"></mat-icon>
+      Color
+    </h2>
+    <input
+      aria-label="Primary color"
+      [ngModel]="color()"
+      (ngModelChange)="setColor($event)"
+      class="h-12 w-12"
+      type="color"
+    />
+    <h2 class="text-2xl flex items-center my-4">
       <mat-icon class="mr-2" svgIcon="background"></mat-icon>
       Background
     </h2>
@@ -90,6 +101,8 @@ export class BrandingContainerComponent implements OnInit {
   screenRecorderService = inject(ScreenRecorderService);
   logos = signal<string[]>(['assets/images/logo.png']);
   activeLogo = signal<string | null>(this.logos()[0]);
+
+  color = this.screenRecorderService.color;
 
   backgrounds = signal<Background[]>([
     {
@@ -171,5 +184,9 @@ export class BrandingContainerComponent implements OnInit {
       backgrounds.filter((b) => b !== background)
     );
     this.screenRecorderService.renderCanvas();
+  }
+
+  setColor(color: string): void {
+    this.screenRecorderService.setColor(color);
   }
 }

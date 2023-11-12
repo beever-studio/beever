@@ -17,6 +17,12 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/present.svg')
     );
     iconRegistry.addSvgIcon(
+      'branding_color',
+      sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/branding_color.svg'
+      )
+    );
+    iconRegistry.addSvgIcon(
       'logo',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg')
     );
