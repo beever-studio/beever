@@ -17,20 +17,6 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/present.svg')
     );
     iconRegistry.addSvgIcon(
-      'branding_color',
-      sanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/branding_color.svg'
-      )
-    );
-    iconRegistry.addSvgIcon(
-      'logo',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'background',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/background.svg')
-    );
-    iconRegistry.addSvgIcon(
       'mic',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/mic.svg')
     );

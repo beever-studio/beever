@@ -22,10 +22,7 @@ import { BackgroundComponent } from './background.component';
     BackgroundComponent,
   ],
   template: `
-    <h2 class="text-2xl flex items-center mb-4">
-      <mat-icon class="mr-2" svgIcon="logo"></mat-icon>
-      Logo
-    </h2>
+    <h2 class="text-2xl mb-4">Logo</h2>
     <ul class="flex flex-wrap gap-1 m-1">
       <li *ngFor="let logo of logos()">
         <button
@@ -53,10 +50,7 @@ import { BackgroundComponent } from './background.component';
         />
       </li>
     </ul>
-    <h2 class="text-2xl flex items-center my-4">
-      <mat-icon class="mr-2" svgIcon="branding_color"></mat-icon>
-      Color
-    </h2>
+    <h2 class="text-2xl my-4">Color</h2>
     <input
       aria-label="Primary color"
       [ngModel]="color()"
@@ -64,10 +58,7 @@ import { BackgroundComponent } from './background.component';
       class="h-12 w-12"
       type="color"
     />
-    <h2 class="text-2xl flex items-center my-4">
-      <mat-icon class="mr-2" svgIcon="background"></mat-icon>
-      Background
-    </h2>
+    <h2 class="text-2xl my-4">Background</h2>
     <ul class="flex flex-col gap-2 m-1">
       <li *ngFor="let background of backgrounds()">
         <beever-background
