@@ -8,11 +8,7 @@ import { HeaderComponent } from './core/components/header.component';
   standalone: true,
   imports: [RouterModule, HeaderComponent],
   selector: 'beever-root',
-  template: `
-    <main class="flex flex-col items-center justify-center">
-      <router-outlet></router-outlet>
-    </main>
-  `,
+  template: ` <router-outlet></router-outlet> `,
 })
 export class AppComponent {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {

@@ -96,6 +96,22 @@ export class BrandingContainerComponent implements OnInit {
       name: 'background',
       url: 'assets/images/background.webp',
     },
+    {
+      name: 'background',
+      url: 'assets/images/background.webp',
+    },
+    {
+      name: 'background',
+      url: 'assets/images/background.webp',
+    },
+    {
+      name: 'background',
+      url: 'assets/images/background.webp',
+    },
+    {
+      name: 'background',
+      url: 'assets/images/background.webp',
+    },
   ]);
   activeBackground = signal<Background | undefined>(this.backgrounds()[0]);
 

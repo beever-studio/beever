@@ -12,7 +12,7 @@ import { ScreenRecorderService } from '../services/screen-recorder.service';
   standalone: true,
   template: `
     <div
-      class="flex justify-center items-center rounded-lg border-2 border-primary p-2 bg-black max-w-[854px] max-h-[480px]"
+      class="flex justify-center items-center bg-black max-w-[854px] max-h-[480px]"
     >
       <video
         class="hidden"

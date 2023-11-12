@@ -1,4 +1,4 @@
-import { Component, computed, HostBinding, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { VideoComponent } from '../../core/components/video.component';
 import { VideoControlsComponent } from '../../core/components/video-controls.component';
 import { ScreenRecorderService } from '../../core/services/screen-recorder.service';
@@ -37,16 +37,14 @@ import { MatBadgeModule } from '@angular/material/badge';
       </button>
       -->
     </header>
-    <section class="flex justify-center items-start w-full h-full gap-4">
-      <section
-        class="w-full flex flex-col justify-center items-center gap-2 m-2"
-      >
+    <section class="flex justify-center items-start w-full gap-4">
+      <section class="w-full flex flex-col items-center gap-2 m-2">
         <beever-video></beever-video>
         <beever-video-controls></beever-video-controls>
       </section>
-      <div class="min-h-full max-w-[568px]">
+      <div class="max-w-[568px]">
         <mat-tab-group>
-          <mat-tab>
+          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'pt-2']">
             <ng-template mat-tab-label>
               <div class="flex flex-col justify-center items-center">
                 <mat-icon svgIcon="branding"></mat-icon>
@@ -110,10 +108,6 @@ export default class RecordComponent {
   screenRecorderService = inject(ScreenRecorderService);
 
   snapshotCount = computed(() => this.screenRecorderService.snapshots().length);
-
-  @HostBinding('class') get classes() {
-    return 'flex flex-col justify-center items-start w-full';
-  }
 
   startRecording(): void {
     this.screenRecorderService.startRecording();
