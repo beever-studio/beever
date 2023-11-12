@@ -61,17 +61,8 @@ body {
 
 .backdrop {
   filter: blur(2px) grayscale(1);
-  background-color: red;
-}
-
-.active-menu-icon {
-  fill: #fc0ef5 !important;
 }
 
 .active-logo {
   border: 2px #fc0ef5 solid;
-}
-
-.mat-drawer-side.mat-drawer-end {
-  border: none !important;
 }
