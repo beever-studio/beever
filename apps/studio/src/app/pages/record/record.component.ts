@@ -20,7 +20,7 @@ import { BackstageComponent } from '../../core/components/backstage.component';
   template: `
     <header class="flex justify-between w-full p-4">
       <a routerLink="/" class="font-caveat text-4xl"> BEEVER </a>
-      <button mat-raised-button color="accent" (click)="startRecording()">
+      <button mat-raised-button color="primary" (click)="startRecording()">
         <mat-icon svgIcon="screen_record"></mat-icon>
         Record
       </button>

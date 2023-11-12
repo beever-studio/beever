@@ -11,7 +11,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$studio-primary: mat.define-palette(mat.$purple-palette, A100, A100, A400);
+$studio-primary: mat.define-palette(mat.$purple-palette, 400, 600, 800);
 $studio-accent: mat.define-palette(mat.$teal-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -64,5 +64,7 @@ body {
 }
 
 .active-logo {
-  border: 2px #fc0ef5 solid;
+  border-width: 2px;
+  border-style: solid;
+  border-color: mat.get-theme-color($studio-theme, primary, default);
 }
