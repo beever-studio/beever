@@ -6,7 +6,6 @@ import { captureSnapshot } from '../../shared/utils/capture-snapshot.util';
 import { getSupportedMimeTypes } from '../../shared/utils/mime-type.util';
 import { downloadRecording } from '../../shared/utils/download-recording.util';
 import { imageLoader } from '../../shared/utils/image-loader.util';
-import { htmlLoader } from '../../shared/utils/html-loader.util';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +18,11 @@ export class ScreenRecorderService {
 
   /* overlays */
   logo = signal<HTMLImageElement | null>(null);
-  banner = signal<HTMLImageElement | null>(null);
+  banner = signal<string | undefined>(undefined);
   background = signal<HTMLImageElement | undefined>(undefined);
 
   assets$ = combineLatest([
     toObservable(this.logo),
-    toObservable(this.banner),
     toObservable(this.background),
   ]);
 
@@ -137,18 +135,9 @@ export class ScreenRecorderService {
       });
   }
 
-  public setBanner(banner: string | null): void {
-    if (!banner) {
-      this.banner.set(null);
-      return;
-    }
-
-    htmlLoader(banner)
-      .pipe(take(1))
-      .subscribe((image) => {
-        this.banner.set(image);
-        this.renderCanvas();
-      });
+  public setBanner(banner: string | undefined): void {
+    this.banner.set(banner);
+    this.renderCanvas();
   }
 
   public setBackground(url: string | undefined): void {
@@ -187,7 +176,7 @@ export class ScreenRecorderService {
     const context = this.canvas.getContext('2d');
 
     if (context) {
-      this.assets$.pipe(take(1)).subscribe(([logo, banner, background]) => {
+      this.assets$.pipe(take(1)).subscribe(([logo, background]) => {
         if (background) {
           context.drawImage(background, 0, 0, 854, 480);
         }
@@ -198,9 +187,32 @@ export class ScreenRecorderService {
           context.drawImage(logo, 764, 10, 80, 80);
         }
 
+        const banner = this.banner();
         if (banner) {
-          console.log('banner', banner);
-          context.drawImage(banner, 50, 50, 80, 80);
+          const textWidth = context.measureText(banner).width;
+          const width = textWidth + 40;
+
+          const metrics = context.measureText(banner);
+          const fontHeight =
+            metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+          // const actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+          context.strokeStyle = 'orange';
+          context.fillStyle = 'orange';
+          context.fill();
+          context.beginPath();
+          context.roundRect(
+            10,
+            480 - fontHeight - 10,
+            width,
+            fontHeight,
+            [10, 40]
+          );
+          context.stroke();
+
+          context.fillStyle = 'black';
+          context.font = 'bold 40pt Courier';
+          context.fillText(banner, 30, 450);
         }
 
         window.requestAnimationFrame(this.renderCanvas.bind(this));
