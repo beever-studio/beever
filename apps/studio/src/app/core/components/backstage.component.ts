@@ -51,9 +51,16 @@ export class BackstageComponent implements AfterViewInit {
   video!: ElementRef<HTMLVideoElement>;
 
   ngAfterViewInit(): void {
-    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-      this.video.nativeElement.srcObject = stream;
-    });
+    navigator.mediaDevices
+      .getUserMedia({
+        video: {
+          width: 1280,
+          height: 720,
+        },
+      })
+      .then((stream) => {
+        this.video.nativeElement.srcObject = stream;
+      });
   }
 
   show(): void {
