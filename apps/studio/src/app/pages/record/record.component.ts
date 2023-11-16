@@ -13,6 +13,7 @@ import { BannerContainerComponent } from '../../core/components/banner-container
 import { RouterLink } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BackstageComponent } from '../../core/components/backstage.component';
+import { LayoutContainerComponent } from '../../core/components/layouts/layout-container.component';
 
 @Component({
   selector: 'beever-record',
@@ -44,6 +45,7 @@ import { BackstageComponent } from '../../core/components/backstage.component';
         <beever-video-controls></beever-video-controls>
         <beever-backstage></beever-backstage>
       </section>
+      <beever-layout-container></beever-layout-container>
       <div class="max-w-[568px]">
         <mat-tab-group>
           <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'pt-2']">
@@ -105,6 +107,7 @@ import { BackstageComponent } from '../../core/components/backstage.component';
     RouterLink,
     MatBadgeModule,
     BackstageComponent,
+    LayoutContainerComponent,
   ],
 })
 export default class RecordComponent {

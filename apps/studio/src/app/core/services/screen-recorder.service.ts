@@ -6,6 +6,7 @@ import { captureSnapshot } from '../../shared/utils/capture-snapshot.util';
 import { getSupportedMimeTypes } from '../../shared/utils/mime-type.util';
 import { downloadRecording } from '../../shared/utils/download-recording.util';
 import { imageLoader } from '../../shared/utils/image-loader.util';
+import { Layout } from '../models/layout.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,7 @@ export class ScreenRecorderService {
   banner = signal<string | undefined>(undefined);
   background = signal<HTMLImageElement | undefined>(undefined);
   color = signal<string>('#FFFFFF');
+  layout = signal<Layout>(Layout.FULL);
 
   assets$ = combineLatest([
     toObservable(this.logo),
@@ -188,13 +190,23 @@ export class ScreenRecorderService {
           context.drawImage(background, 0, 0, 854, 480);
         }
 
-        if (this.video.srcObject) {
+        if (
+          this.video.srcObject &&
+          this.layout() !== Layout.FULL &&
+          this.layout() !== Layout.SOLO_LAYOUT
+        ) {
           context.drawImage(this.video, 0, 0, 854, 480);
         }
 
         if (this.cameras.length) {
           // show first camera in right bottom corner
-          context.drawImage(this.cameras[0], 684, 380, 160, 90);
+          if (this.layout() === Layout.FULL) {
+            context.drawImage(this.cameras[0], 0, 0, 854, 480);
+          } else if (this.layout() === Layout.SOLO_LAYOUT) {
+            context.drawImage(this.cameras[0], 40, 40, 774, 400);
+          } else if (this.layout() === Layout.PICTURE_IN_PICTURE) {
+            context.drawImage(this.cameras[0], 684, 380, 160, 90);
+          }
           /*
           this.cameras.forEach((camera, index) => {
             context.drawImage(camera, 10 + (index * 170), 10, 160, 90);
@@ -244,5 +256,10 @@ export class ScreenRecorderService {
     tracks?.forEach((track) => track.stop());
 
     this.video.srcObject = null;
+  }
+
+  setLayout(layout: Layout): void {
+    this.layout.set(layout);
+    this.renderCanvas();
   }
 }
