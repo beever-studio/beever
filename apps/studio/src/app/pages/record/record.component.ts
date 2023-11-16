@@ -57,7 +57,7 @@ import { LayoutContainerComponent } from '../../core/components/layouts/layout-c
             </ng-template>
             <beever-branding-container></beever-branding-container>
           </mat-tab>
-          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'pt-2']">
+          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'p-2']">
             <ng-template mat-tab-label>
               <div class="flex flex-col justify-center items-center">
                 <mat-icon svgIcon="capture"></mat-icon>
@@ -72,7 +72,7 @@ import { LayoutContainerComponent } from '../../core/components/layouts/layout-c
             </ng-template>
             <beever-snapshot-container></beever-snapshot-container>
           </mat-tab>
-          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'pt-2']">
+          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'p-2']">
             <ng-template mat-tab-label>
               <div class="flex flex-col justify-center items-center">
                 <mat-icon svgIcon="banner"></mat-icon>
@@ -81,7 +81,7 @@ import { LayoutContainerComponent } from '../../core/components/layouts/layout-c
             </ng-template>
             <beever-banner-container></beever-banner-container>
           </mat-tab>
-          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'pt-2']">
+          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'p-2']">
             <ng-template mat-tab-label>
               <div class="flex flex-col justify-center items-center">
                 <mat-icon svgIcon="chat"></mat-icon>

@@ -7,7 +7,7 @@ import { SnapshotComponent } from './snapshot.component';
   selector: 'beever-snapshot-container',
   standalone: true,
   template: `
-    <ul class="w-72 flex flex-col items-center gap-2 overflow-auto">
+    <ul class="grid grid-cols-2 gap-2">
       <li *ngFor="let snapshot of snapshots$ | async; let index = index">
         <beever-snapshot
           [snapshot]="snapshot"
