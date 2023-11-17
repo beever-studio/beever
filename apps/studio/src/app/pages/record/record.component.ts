@@ -14,6 +14,8 @@ import { RouterLink } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BackstageComponent } from '../../core/components/backstage.component';
 import { LayoutContainerComponent } from '../../core/components/layouts/layout-container.component';
+import { TabsComponent } from '../../core/components/tabs/tabs.component';
+import { TabComponent } from '../../core/components/tabs/tab.component';
 
 @Component({
   selector: 'beever-record',
@@ -47,76 +49,23 @@ import { LayoutContainerComponent } from '../../core/components/layouts/layout-c
         </div>
         <beever-layout-container></beever-layout-container>
       </div>
-      <div class="flex border-2 border-gray-300 rounded-xl p-1">
-        <div class="overflow-auto w-80">
-          <div
-            id="panel-1"
-            role="tabpanel"
-            tabindex="0"
-            aria-labelledby="tab-1"
-          >
-            <beever-branding-container
-              class="overflow-auto"
-            ></beever-branding-container>
-          </div>
-          <div
-            id="panel-2"
-            role="tabpanel"
-            tabindex="0"
-            aria-labelledby="tab-2"
-            hidden
-          >
-            <beever-snapshot-container></beever-snapshot-container>
-          </div>
-          <div
-            id="panel-3"
-            role="tabpanel"
-            tabindex="0"
-            aria-labelledby="tab-3"
-            hidden
-          >
-            <beever-banner-container></beever-banner-container>
-          </div>
-        </div>
-        <div class="flex flex-col" role="tablist" aria-label="Sample Tabs">
-          <button
-            class="h-16 w-16"
-            role="tab"
-            aria-selected="true"
-            aria-controls="panel-1"
-            id="tab-1"
-          >
-            <mat-icon svgIcon="branding"></mat-icon>
-          </button>
-          <button
-            class="h-16 w-16"
-            role="tab"
-            aria-selected="false"
-            aria-controls="panel-2"
-            id="tab-2"
-          >
-            <mat-icon svgIcon="capture"></mat-icon>
-          </button>
-          <button
-            class="h-16 w-16"
-            role="tab"
-            aria-selected="false"
-            aria-controls="panel-3"
-            id="tab-3"
-          >
-            <mat-icon svgIcon="banner"></mat-icon>
-          </button>
-          <button
-            class="h-16 w-16"
-            role="tab"
-            aria-selected="false"
-            aria-controls="panel-4"
-            id="tab-4"
-          >
-            <mat-icon svgIcon="chat"></mat-icon>
-          </button>
-        </div>
-      </div>
+      <beever-tabs>
+        <beever-tab title="branding" icon="branding">
+          <beever-branding-container
+            class="overflow-auto"
+          ></beever-branding-container>
+        </beever-tab>
+        <beever-tab title="snpashots" icon="capture">
+          <beever-snapshot-container
+            class="overflow-auto"
+          ></beever-snapshot-container>
+        </beever-tab>
+        <beever-tab title="banners" icon="banner">
+          <beever-banner-container
+            class="overflow-auto"
+          ></beever-banner-container>
+        </beever-tab>
+      </beever-tabs>
     </section>
     <beever-backstage></beever-backstage>
   `,
@@ -135,6 +84,8 @@ import { LayoutContainerComponent } from '../../core/components/layouts/layout-c
     MatBadgeModule,
     BackstageComponent,
     LayoutContainerComponent,
+    TabsComponent,
+    TabComponent,
   ],
 })
 export default class RecordComponent {
