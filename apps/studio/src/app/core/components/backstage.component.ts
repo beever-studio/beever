@@ -13,8 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'beever-backstage',
   standalone: true,
   template: `
-    <ul>
-      <li>
+    <ul class="flex p-4">
+      <li class="flex flex-col">
         <video
           #video
           width="160"

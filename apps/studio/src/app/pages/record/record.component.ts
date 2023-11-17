@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, HostBinding, inject } from '@angular/core';
 import { VideoComponent } from '../../core/components/video.component';
 import { VideoControlsComponent } from '../../core/components/video-controls.component';
 import { ScreenRecorderService } from '../../core/services/screen-recorder.service';
@@ -26,72 +26,99 @@ import { LayoutContainerComponent } from '../../core/components/layouts/layout-c
         Record
       </button>
       <!--
-      <button mat-raised-button>
-        <mat-icon svgIcon="pause"></mat-icon>
-      </button>
-      <button mat-raised-button color="warn" (click)="stopRecording()">
-        <mat-icon svgIcon="screen_record"></mat-icon>
-        End Recording
-      </button>
-      <button mat-stroked-button (click)="downloadRecording()">
-        <mat-icon svgIcon="download"></mat-icon>
-        Download Recording
-      </button>
-      -->
+          <button mat-raised-button>
+            <mat-icon svgIcon="pause"></mat-icon>
+          </button>
+          <button mat-raised-button color="warn" (click)="stopRecording()">
+            <mat-icon svgIcon="screen_record"></mat-icon>
+            End Recording
+          </button>
+          <button mat-stroked-button (click)="downloadRecording()">
+            <mat-icon svgIcon="download"></mat-icon>
+            Download Recording
+          </button>
+          -->
     </header>
-    <section class="flex justify-center items-start w-full gap-4">
-      <section class="w-full flex flex-col items-center gap-2 m-2">
-        <beever-video></beever-video>
-        <beever-video-controls></beever-video-controls>
-        <beever-backstage></beever-backstage>
-      </section>
-      <beever-layout-container></beever-layout-container>
-      <div class="max-w-[568px]">
-        <mat-tab-group>
-          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'pt-2']">
-            <ng-template mat-tab-label>
-              <div class="flex flex-col justify-center items-center">
-                <mat-icon svgIcon="branding"></mat-icon>
-                Brand
-              </div>
-            </ng-template>
-            <beever-branding-container></beever-branding-container>
-          </mat-tab>
-          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'p-2']">
-            <ng-template mat-tab-label>
-              <div class="flex flex-col justify-center items-center">
-                <mat-icon svgIcon="capture"></mat-icon>
-                <span
-                  [matBadge]="snapshotCount()"
-                  matBadgeSize="small"
-                  [matBadgeHidden]="!snapshotCount()"
-                  matBadgePosition="above after"
-                  >Snapshots</span
-                >
-              </div>
-            </ng-template>
+    <section class="flex flex-1 justify-between items-stretch h-0 gap-4 px-2">
+      <div class="flex flex-1 gap-1 justify-center">
+        <div class="flex flex-col">
+          <beever-video></beever-video>
+          <beever-video-controls></beever-video-controls>
+        </div>
+        <beever-layout-container></beever-layout-container>
+      </div>
+      <div class="flex border-2 border-gray-300 rounded-xl p-1">
+        <div class="overflow-auto w-80">
+          <div
+            id="panel-1"
+            role="tabpanel"
+            tabindex="0"
+            aria-labelledby="tab-1"
+          >
+            <beever-branding-container
+              class="overflow-auto"
+            ></beever-branding-container>
+          </div>
+          <div
+            id="panel-2"
+            role="tabpanel"
+            tabindex="0"
+            aria-labelledby="tab-2"
+            hidden
+          >
             <beever-snapshot-container></beever-snapshot-container>
-          </mat-tab>
-          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'p-2']">
-            <ng-template mat-tab-label>
-              <div class="flex flex-col justify-center items-center">
-                <mat-icon svgIcon="banner"></mat-icon>
-                Banners
-              </div>
-            </ng-template>
+          </div>
+          <div
+            id="panel-3"
+            role="tabpanel"
+            tabindex="0"
+            aria-labelledby="tab-3"
+            hidden
+          >
             <beever-banner-container></beever-banner-container>
-          </mat-tab>
-          <mat-tab [bodyClass]="['max-h-[calc(100vh-120px)]', 'p-2']">
-            <ng-template mat-tab-label>
-              <div class="flex flex-col justify-center items-center">
-                <mat-icon svgIcon="chat"></mat-icon>
-                Chat
-              </div>
-            </ng-template>
-          </mat-tab>
-        </mat-tab-group>
+          </div>
+        </div>
+        <div class="flex flex-col" role="tablist" aria-label="Sample Tabs">
+          <button
+            class="h-16 w-16"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-1"
+            id="tab-1"
+          >
+            <mat-icon svgIcon="branding"></mat-icon>
+          </button>
+          <button
+            class="h-16 w-16"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-2"
+            id="tab-2"
+          >
+            <mat-icon svgIcon="capture"></mat-icon>
+          </button>
+          <button
+            class="h-16 w-16"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-3"
+            id="tab-3"
+          >
+            <mat-icon svgIcon="banner"></mat-icon>
+          </button>
+          <button
+            class="h-16 w-16"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-4"
+            id="tab-4"
+          >
+            <mat-icon svgIcon="chat"></mat-icon>
+          </button>
+        </div>
       </div>
     </section>
+    <beever-backstage></beever-backstage>
   `,
   imports: [
     VideoComponent,
@@ -115,6 +142,7 @@ export default class RecordComponent {
 
   snapshotCount = computed(() => this.screenRecorderService.snapshots().length);
 
+  @HostBinding('class') class = 'flex flex-col h-full';
   startRecording(): void {
     this.screenRecorderService.startRecording();
   }
