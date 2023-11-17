@@ -8,6 +8,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { TabComponent } from './tab.component';
 import { NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'beever-tabs',
@@ -31,6 +32,7 @@ import { NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
         class="h-16 w-16"
         [ngClass]="{ 'bg-violet-300 rounded': activeTab() === i }"
         role="tab"
+        matRipple
         [attr.aria-selected]="activeTab() === i"
         attr.aria-controls="panel-{{ i }}"
         id="tab-{{ i }}"
@@ -40,7 +42,14 @@ import { NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
       </button>
     </div>
   `,
-  imports: [MatIconModule, NgForOf, NgTemplateOutlet, NgIf, NgClass],
+  imports: [
+    MatIconModule,
+    NgForOf,
+    NgTemplateOutlet,
+    NgIf,
+    NgClass,
+    MatRippleModule,
+  ],
 })
 export class TabsComponent {
   activeTab = signal(0);
