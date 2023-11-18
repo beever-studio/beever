@@ -7,6 +7,7 @@ import { getSupportedMimeTypes } from '../../shared/utils/mime-type.util';
 import { downloadRecording } from '../../shared/utils/download-recording.util';
 import { imageLoader } from '../../shared/utils/image-loader.util';
 import { Layout } from '../models/layout.model';
+import { VideoSource } from '../models/video-source.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,7 @@ export class ScreenRecorderService {
 
   video!: HTMLVideoElement;
   canvas!: HTMLCanvasElement;
-  cameras: HTMLVideoElement[] = [];
+  videoSources: VideoSource[] = [];
 
   isInactive$ = toObservable(this.status).pipe(
     filter((status) => status === ScreenRecorderStatus.INACTIVE)
@@ -198,14 +199,15 @@ export class ScreenRecorderService {
           context.drawImage(this.video, 0, 0, 854, 480);
         }
 
-        if (this.cameras.length) {
+        const camera = this.videoSources.find((source) => source.isActive);
+        if (camera) {
           // show first camera in right bottom corner
           if (this.layout() === Layout.FULL) {
-            context.drawImage(this.cameras[0], 0, 0, 854, 480);
+            context.drawImage(camera.src, 0, 0, 854, 480);
           } else if (this.layout() === Layout.SOLO_LAYOUT) {
-            context.drawImage(this.cameras[0], 40, 40, 774, 400);
+            context.drawImage(camera.src, 40, 40, 774, 400);
           } else if (this.layout() === Layout.PICTURE_IN_PICTURE) {
-            context.drawImage(this.cameras[0], 684, 380, 160, 90);
+            context.drawImage(camera.src, 684, 380, 160, 90);
           }
           /*
           this.cameras.forEach((camera, index) => {
