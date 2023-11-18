@@ -64,11 +64,14 @@ export class BackstageComponent implements AfterViewInit {
   }
 
   show(): void {
-    this.screenRecorderService.videoSources.push({
-      type: 'camera',
-      src: this.video.nativeElement,
-      isActive: true,
-    });
+    this.screenRecorderService.videoSources.update((sources) => [
+      ...sources,
+      {
+        type: 'camera',
+        src: this.video.nativeElement,
+        isActive: true,
+      },
+    ]);
     this.screenRecorderService.renderCanvas();
   }
 }
