@@ -53,6 +53,7 @@ export class BackstageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     navigator.mediaDevices
       .getUserMedia({
+        // TODO : update based on the device (portrait/landscape)
         video: {
           width: 1280,
           height: 720,

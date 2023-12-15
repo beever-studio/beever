@@ -8,6 +8,7 @@ import { downloadRecording } from '../../shared/utils/download-recording.util';
 import { imageLoader } from '../../shared/utils/image-loader.util';
 import { Layout } from '../models/layout.model';
 import { VideoSource } from '../models/video-source.model';
+import { Format, LANDSCAPE_FORMAT } from '../models/format.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class ScreenRecorderService {
   background = signal<HTMLImageElement | undefined>(undefined);
   color = signal<string>('#FFFFFF');
   layout = signal<Layout>(Layout.FULL);
+  format = signal<Format>(LANDSCAPE_FORMAT);
 
   assets$ = combineLatest([
     toObservable(this.logo),
@@ -153,8 +155,8 @@ export class ScreenRecorderService {
   private getDisplayMedia(): Promise<MediaStream> {
     return navigator.mediaDevices.getDisplayMedia({
       video: {
-        width: 1280,
-        height: 720,
+        width: this.format().width,
+        height: this.format().height,
         displaySurface: 'default',
       },
     });
