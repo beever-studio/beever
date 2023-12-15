@@ -2,14 +2,14 @@ import { Component, computed, HostBinding, inject } from '@angular/core';
 import { VideoComponent } from '../../core/components/video.component';
 import { VideoControlsComponent } from '../../core/components/video-controls.component';
 import { ScreenRecorderService } from '../../core/services/screen-recorder.service';
-import { SnapshotContainerComponent } from '../../core/components/snapshot-container.component';
-import { BrandingContainerComponent } from '../../core/components/branding-container.component';
+import { SnapshotSettingsComponent } from '../../core/components/settings/snapshot-settings.component';
+import { BrandingSettingsComponent } from '../../core/components/settings/branding-settings.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
-import { BannerContainerComponent } from '../../core/components/banner-container.component';
+import { BannerSettingsComponent } from '../../core/components/settings/banner-settings.component';
 import { RouterLink } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BackstageComponent } from '../../core/components/backstage.component';
@@ -51,19 +51,19 @@ import { TabComponent } from '../../core/components/tabs/tab.component';
       </div>
       <beever-tabs>
         <beever-tab title="branding" icon="branding">
-          <beever-branding-container
+          <beever-branding-settings
             class="overflow-auto"
-          ></beever-branding-container>
+          ></beever-branding-settings>
         </beever-tab>
         <beever-tab title="snpashots" icon="capture">
-          <beever-snapshot-container
+          <beever-snapshot-settings
             class="overflow-auto"
-          ></beever-snapshot-container>
+          ></beever-snapshot-settings>
         </beever-tab>
         <beever-tab title="banners" icon="banner">
-          <beever-banner-container
+          <beever-banner-settings
             class="overflow-auto"
-          ></beever-banner-container>
+          ></beever-banner-settings>
         </beever-tab>
       </beever-tabs>
     </section>
@@ -72,9 +72,9 @@ import { TabComponent } from '../../core/components/tabs/tab.component';
   imports: [
     VideoComponent,
     VideoControlsComponent,
-    SnapshotContainerComponent,
-    BrandingContainerComponent,
-    BannerContainerComponent,
+    SnapshotSettingsComponent,
+    BrandingSettingsComponent,
+    BannerSettingsComponent,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,

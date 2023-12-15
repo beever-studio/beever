@@ -19,7 +19,7 @@ import { MatRippleModule } from '@angular/material/core';
         *ngFor="let tab of tabs; let i = index"
         id="panel-{{ i }}"
         role="tabpanel"
-        attr.aria-labelledby="tab-{{ i }}"
+        aria-labelledby="tab-{{ i }}"
       >
         <ng-container *ngIf="activeTab() === i">
           <ng-container [ngTemplateOutlet]="tab.template"></ng-container>
@@ -34,7 +34,7 @@ import { MatRippleModule } from '@angular/material/core';
         role="tab"
         matRipple
         [attr.aria-selected]="activeTab() === i"
-        attr.aria-controls="panel-{{ i }}"
+        aria-controls="panel-{{ i }}"
         id="tab-{{ i }}"
         (click)="toggleTab(i)"
       >

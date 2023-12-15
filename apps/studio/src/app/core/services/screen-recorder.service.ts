@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { combineLatest, defer, filter, map, Observable, take, tap } from 'rxjs';
+import { combineLatest, defer, map, Observable, take, tap } from 'rxjs';
 import { ScreenRecorderStatus } from '../models/screen-recorder-status.enum';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { captureSnapshot } from '../../shared/utils/capture-snapshot.util';
@@ -35,20 +35,6 @@ export class ScreenRecorderService {
   video!: HTMLVideoElement;
   canvas!: HTMLCanvasElement;
   videoSources: WritableSignal<VideoSource[]> = signal([]);
-
-  isInactive$ = toObservable(this.status).pipe(
-    filter((status) => status === ScreenRecorderStatus.INACTIVE)
-  );
-
-  isActive$ = toObservable(this.status).pipe(
-    map((status) => {
-      const isInactive = status === ScreenRecorderStatus.INACTIVE;
-      const unSelectedScreen =
-        status === ScreenRecorderStatus.SELECTING && !window.stream;
-
-      return !isInactive && !unSelectedScreen;
-    })
-  );
 
   isRecording$ = toObservable(this.status).pipe(
     map((status) => status === ScreenRecorderStatus.RECORDING)

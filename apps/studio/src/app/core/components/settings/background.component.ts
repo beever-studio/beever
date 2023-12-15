@@ -4,12 +4,15 @@ import {
   DestroyRef,
   ElementRef,
   EventEmitter,
+  HostBinding,
   inject,
   Input,
   Output,
   signal,
   ViewChild,
 } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Background } from '../../models/background.model';
 import {
   CdkConnectedOverlay,
   CdkOverlayOrigin,
@@ -19,32 +22,26 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ZoomComponent } from './zoom.component';
-import { downloadSnapshot } from '../../shared/utils/download-snapshot.util';
-import { NgClass } from '@angular/common';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { BeeverRenameComponent } from '../modals/rename.component';
 
 @Component({
-  selector: 'beever-snapshot',
+  selector: 'beever-background',
   standalone: true,
-  imports: [
-    CdkConnectedOverlay,
-    CdkOverlayOrigin,
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule,
-    NgClass,
-  ],
   template: `
-    <img
-      class="w-60 h-auto cursor-pointer"
-      [ngClass]="{ backdrop: isOpen() }"
-      [src]="snapshot"
-      alt=""
+    <button
+      class="rounded p-1 border-2 border-transparent w-full flex gap-4 items-center"
+      [ngClass]="{ 'active-logo': isActive, backdrop: isOpen() }"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
-      (click)="zoom()"
-    />
+    >
+      <img class="h-[4.5rem] w-[8rem] rounded" [src]="background.url" alt="" />
+      <div>
+        <span>{{ background.name }}</span>
+      </div>
+    </button>
+    <button></button>
     <ng-template
       cdkConnectedOverlay
       [cdkConnectedOverlayOrigin]="trigger"
@@ -53,39 +50,61 @@ import { NgClass } from '@angular/common';
     >
       <ul class="flex gap-2 mt-2 mr-2">
         <li>
-          <button mat-mini-fab class="!bg-white" (click)="download()">
-            <mat-icon svgIcon="download"></mat-icon>
+          <button mat-mini-fab class="!bg-white" (click)="activate.emit()">
+            <mat-icon
+              [svgIcon]="isActive ? 'visibility_off' : 'visibility'"
+            ></mat-icon>
           </button>
         </li>
         <li>
-          <button mat-mini-fab class="!bg-white" (click)="delete.emit()">
-            <mat-icon svgIcon="delete"></mat-icon>
+          <button mat-mini-fab class="!bg-white" [matMenuTriggerFor]="menu">
+            <mat-icon svgIcon="more_vert"></mat-icon>
           </button>
         </li>
       </ul>
     </ng-template>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="rename()">Rename</button>
+      <button mat-menu-item (click)="delete.emit()">Delete</button>
+    </mat-menu>
   `,
+  imports: [
+    NgClass,
+    CdkConnectedOverlay,
+    MatButtonModule,
+    MatIconModule,
+    CdkOverlayOrigin,
+    MatMenuModule,
+  ],
 })
-export class SnapshotComponent implements AfterViewInit {
+export class BackgroundComponent implements AfterViewInit {
   elementRef = inject(ElementRef);
   destroyRef = inject(DestroyRef);
   dialog = inject(MatDialog);
 
-  isOpen = signal(false);
-
-  @Input() snapshot!: string;
-  @Output() delete = new EventEmitter();
-
-  @ViewChild(CdkConnectedOverlay) trigger!: CdkConnectedOverlay;
-
   positions: ConnectedPosition[] = [
     {
-      originX: 'end',
-      originY: 'top',
-      overlayX: 'end',
-      overlayY: 'top',
+      originX: 'center',
+      originY: 'center',
+      overlayX: 'center',
+      overlayY: 'center',
     },
   ];
+
+  isOpen = signal(false);
+
+  @Input() background!: Background;
+  @Input() isActive!: boolean;
+
+  @Output() activate = new EventEmitter<void>();
+  @Output() delete = new EventEmitter<void>();
+
+  @ViewChild(CdkConnectedOverlay) trigger!: CdkConnectedOverlay;
+  @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
+
+  @HostBinding('class') get hostClass() {
+    return 'flex items-center';
+  }
 
   ngAfterViewInit() {
     fromEvent(document, 'mouseover')
@@ -117,21 +136,29 @@ export class SnapshotComponent implements AfterViewInit {
             this.isOpen.set(true);
           }
         } else {
-          if (this.trigger.open && !isInsideOverlay) {
+          if (
+            this.trigger.open &&
+            !isInsideOverlay &&
+            !this.menuTrigger.menuOpen
+          ) {
             this.isOpen.set(false);
           }
         }
       });
   }
 
-  zoom(): void {
-    this.dialog.open(ZoomComponent, {
-      data: this.snapshot,
-      backdropClass: 'backdrop',
-    });
-  }
-
-  download(): void {
-    downloadSnapshot(this.snapshot);
+  rename(): void {
+    this.dialog
+      .open(BeeverRenameComponent, {
+        data: {
+          name: this.background.name,
+        },
+      })
+      .afterClosed()
+      .subscribe((name) => {
+        if (name) {
+          this.background.name = name;
+        }
+      });
   }
 }

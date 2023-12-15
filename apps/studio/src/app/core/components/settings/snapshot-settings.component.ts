@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgFor } from '@angular/common';
-import { ScreenRecorderService } from '../services/screen-recorder.service';
+import { ScreenRecorderService } from '../../services/screen-recorder.service';
 import { SnapshotComponent } from './snapshot.component';
 
 @Component({
-  selector: 'beever-snapshot-container',
+  selector: 'beever-snapshot-settings',
   standalone: true,
   template: `
     <ul class="grid grid-cols-2 gap-2">
@@ -18,7 +18,7 @@ import { SnapshotComponent } from './snapshot.component';
   `,
   imports: [AsyncPipe, NgFor, SnapshotComponent],
 })
-export class SnapshotContainerComponent {
+export class SnapshotSettingsComponent {
   screenRecorderService = inject(ScreenRecorderService);
   snapshots$ = this.screenRecorderService.snapshots$;
 

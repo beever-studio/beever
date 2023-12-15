@@ -3,13 +3,13 @@ import { AsyncPipe, NgClass, NgForOf } from '@angular/common';
 import { SnapshotComponent } from './snapshot.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { ScreenRecorderService } from '../services/screen-recorder.service';
+import { ScreenRecorderService } from '../../services/screen-recorder.service';
 import { MatIconModule } from '@angular/material/icon';
-import { Background } from '../models/background.model';
+import { Background } from '../../models/background.model';
 import { BackgroundComponent } from './background.component';
 
 @Component({
-  selector: 'beever-branding-container',
+  selector: 'beever-branding-settings',
   standalone: true,
   imports: [
     AsyncPipe,
@@ -88,7 +88,7 @@ import { BackgroundComponent } from './background.component';
     </ul>
   `,
 })
-export class BrandingContainerComponent implements OnInit {
+export class BrandingSettingsComponent implements OnInit {
   screenRecorderService = inject(ScreenRecorderService);
   logos = signal<string[]>(['assets/images/logo.png']);
   activeLogo = signal<string | null>(this.logos()[0]);

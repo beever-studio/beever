@@ -2,12 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ScreenRecorderService } from '../services/screen-recorder.service';
+import { ScreenRecorderService } from '../../services/screen-recorder.service';
 import { BannerComponent } from './banner.component';
 import { NgForOf } from '@angular/common';
 
 @Component({
-  selector: 'beever-banner-container',
+  selector: 'beever-banner-settings',
   standalone: true,
   template: `
     <mat-list role="list">
@@ -28,7 +28,7 @@ import { NgForOf } from '@angular/common';
     NgForOf,
   ],
 })
-export class BannerContainerComponent {
+export class BannerSettingsComponent {
   screenRecorderService = inject(ScreenRecorderService);
 
   banners = signal<string[]>(['Beever', 'Angular Devs France', 'Gerome']);
