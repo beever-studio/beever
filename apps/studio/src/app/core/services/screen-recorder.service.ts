@@ -8,7 +8,11 @@ import { downloadRecording } from '../../shared/utils/download-recording.util';
 import { imageLoader } from '../../shared/utils/image-loader.util';
 import { Layout } from '../models/layout.model';
 import { VideoSource } from '../models/video-source.model';
-import { Format, LANDSCAPE_FORMAT } from '../models/format.model';
+import {
+  Format,
+  LANDSCAPE_FORMAT,
+  PORTRAIT_FORMAT,
+} from '../models/format.model';
 
 @Injectable({
   providedIn: 'root',
@@ -251,5 +255,12 @@ export class ScreenRecorderService {
   setLayout(layout: Layout): void {
     this.layout.set(layout);
     this.renderCanvas();
+  }
+
+  toggleFormat(): void {
+    if (this.format().type === 'portrait') {
+      this.format.set(LANDSCAPE_FORMAT);
+    }
+    this.format.set(PORTRAIT_FORMAT);
   }
 }

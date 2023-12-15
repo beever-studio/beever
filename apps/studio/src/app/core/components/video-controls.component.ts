@@ -109,6 +109,6 @@ export class VideoControlsComponent {
   }
 
   toggleFormat(): void {
-    // TODO: implement
+    this.screenRecorderService.toggleFormat();
   }
 }
