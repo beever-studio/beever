@@ -1,11 +1,12 @@
 import { Component, DestroyRef, inject } from '@angular/core';
-import { ScreenRecorderService } from '../services/screen-recorder.service';
+import { PreviewService } from '../services/./preview.service';
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DisabledDirective } from '../../shared/directives/disabled.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { EditorService } from '../services/editor.service';
 
 @Component({
   selector: 'beever-video-controls',
@@ -83,21 +84,15 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class VideoControlsComponent {
-  screenRecorderService = inject(ScreenRecorderService);
-  destroyRef = inject(DestroyRef);
-
-  isRecording$ = this.screenRecorderService.isRecording$;
-  isStopped$ = this.screenRecorderService.isStopped$;
+  screenRecorderService = inject(PreviewService);
+  editorService = inject(EditorService);
 
   selectScreen(): void {
-    this.screenRecorderService
-      .getStream()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+    this.editorService.shareScreen();
   }
 
   stopPresentation(): void {
-    this.screenRecorderService.stopPresentation();
+    // this.screenRecorderService.stopPresentation();
   }
 
   captureSnapshot(): void {
@@ -109,6 +104,6 @@ export class VideoControlsComponent {
   }
 
   toggleFormat(): void {
-    this.screenRecorderService.toggleFormat();
+    // this.screenRecorderService.toggleFormat();
   }
 }

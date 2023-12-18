@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgFor } from '@angular/common';
-import { ScreenRecorderService } from '../../services/screen-recorder.service';
+import { PreviewService } from '../../../services/preview.service';
 import { SnapshotComponent } from './snapshot.component';
+import { EditorService } from '../../../services/editor.service';
 
 @Component({
   selector: 'beever-snapshot-settings',
@@ -19,10 +20,10 @@ import { SnapshotComponent } from './snapshot.component';
   imports: [AsyncPipe, NgFor, SnapshotComponent],
 })
 export class SnapshotSettingsComponent {
-  screenRecorderService = inject(ScreenRecorderService);
-  snapshots$ = this.screenRecorderService.snapshots$;
+  editorService = inject(EditorService);
+  snapshots$ = this.editorService.snapshots$;
 
   delete(index: number) {
-    this.screenRecorderService.deleteSnapshot(index);
+    this.editorService.deleteSnapshot(index);
   }
 }

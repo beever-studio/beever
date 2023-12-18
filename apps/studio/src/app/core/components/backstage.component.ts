@@ -5,9 +5,9 @@ import {
   inject,
   ViewChild,
 } from '@angular/core';
-import { ScreenRecorderService } from '../services/screen-recorder.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { EditorService } from '../services/editor.service';
 
 @Component({
   selector: 'beever-backstage',
@@ -28,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
             <mat-icon svgIcon="mic"></mat-icon>
           </button>
           <button
+            type="button"
             mat-mini-fab
             class="!bg-white"
             title="Add to stage"
@@ -45,7 +46,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [MatButtonModule, MatIconModule],
 })
 export class BackstageComponent implements AfterViewInit {
-  screenRecorderService = inject(ScreenRecorderService);
+  editorService = inject(EditorService);
 
   @ViewChild('video', { read: ElementRef })
   video!: ElementRef<HTMLVideoElement>;
@@ -65,14 +66,6 @@ export class BackstageComponent implements AfterViewInit {
   }
 
   show(): void {
-    this.screenRecorderService.videoSources.update((sources) => [
-      ...sources,
-      {
-        type: 'camera',
-        src: this.video.nativeElement,
-        isActive: true,
-      },
-    ]);
-    this.screenRecorderService.renderCanvas();
+    this.editorService.showCamera(this.video.nativeElement);
   }
 }

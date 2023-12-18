@@ -1,24 +1,24 @@
-import { Component, computed, HostBinding, inject } from '@angular/core';
-import { VideoComponent } from '../../core/components/video.component';
+import { Component, HostBinding, inject } from '@angular/core';
+import { PreviewComponent } from '../../core/components/preview.component';
 import { VideoControlsComponent } from '../../core/components/video-controls.component';
-import { ScreenRecorderService } from '../../core/services/screen-recorder.service';
-import { SnapshotSettingsComponent } from '../../core/components/settings/snapshot-settings.component';
-import { BrandingSettingsComponent } from '../../core/components/settings/branding-settings.component';
+import { SnapshotSettingsComponent } from '../../core/components/settings/snapshot/snapshot-settings.component';
+import { BrandingSettingsComponent } from '../../core/components/settings/branding/branding-settings.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
-import { BannerSettingsComponent } from '../../core/components/settings/banner-settings.component';
+import { BannerSettingsComponent } from '../../core/components/settings/banner/banner-settings.component';
 import { RouterLink } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BackstageComponent } from '../../core/components/backstage.component';
 import { LayoutContainerComponent } from '../../core/components/layouts/layout-container.component';
 import { TabsComponent } from '../../core/components/tabs/tabs.component';
 import { TabComponent } from '../../core/components/tabs/tab.component';
+import { EditorService } from '../../core/services/editor.service';
 
 @Component({
-  selector: 'beever-record',
+  selector: 'beever-editor',
   standalone: true,
   template: `
     <header class="flex justify-between w-full p-4">
@@ -44,7 +44,7 @@ import { TabComponent } from '../../core/components/tabs/tab.component';
     <section class="flex flex-1 justify-between items-stretch h-0 gap-4 px-2">
       <div class="flex flex-1 gap-1 justify-center">
         <div class="flex flex-col">
-          <beever-video></beever-video>
+          <beever-preview></beever-preview>
           <beever-video-controls></beever-video-controls>
         </div>
         <beever-layout-container></beever-layout-container>
@@ -70,7 +70,7 @@ import { TabComponent } from '../../core/components/tabs/tab.component';
     <beever-backstage></beever-backstage>
   `,
   imports: [
-    VideoComponent,
+    PreviewComponent,
     VideoControlsComponent,
     SnapshotSettingsComponent,
     BrandingSettingsComponent,
@@ -88,21 +88,20 @@ import { TabComponent } from '../../core/components/tabs/tab.component';
     TabComponent,
   ],
 })
-export default class RecordComponent {
-  screenRecorderService = inject(ScreenRecorderService);
-
-  snapshotCount = computed(() => this.screenRecorderService.snapshots().length);
+export default class EditorComponent {
+  editorService = inject(EditorService);
 
   @HostBinding('class') class = 'flex flex-col h-full';
+
   startRecording(): void {
-    this.screenRecorderService.startRecording();
+    this.editorService.startRecording();
   }
 
   stopRecording(): void {
-    this.screenRecorderService.stopRecording();
+    this.editorService.stopRecording();
   }
 
   downloadRecording(): void {
-    this.screenRecorderService.download();
+    this.editorService.downloadRecording();
   }
 }

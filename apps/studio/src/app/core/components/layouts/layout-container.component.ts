@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Layout } from '../../models/layout.model';
 import { NgClass, NgForOf } from '@angular/common';
-import { ScreenRecorderService } from '../../services/screen-recorder.service';
+import { EditorService } from '../../services/editor.service';
 
 @Component({
   selector: 'beever-layout-container',
@@ -10,6 +10,7 @@ import { ScreenRecorderService } from '../../services/screen-recorder.service';
     <ul class="flex flex-col gap-2">
       <li *ngFor="let layout of layouts">
         <button
+          type="button"
           class="border-gray-300 border-2 rounded-xl h-[45px] w-[80px]"
           [ngClass]="{ 'border-violet-800': layout === activeLayout() }"
           (click)="setLayout(layout)"
@@ -22,11 +23,11 @@ import { ScreenRecorderService } from '../../services/screen-recorder.service';
   imports: [NgForOf, NgClass],
 })
 export class LayoutContainerComponent {
-  screenRecorderService = inject(ScreenRecorderService);
+  editorService = inject(EditorService);
   layouts: Layout[] = Object.values(Layout);
-  activeLayout = this.screenRecorderService.layout;
+  activeLayout = this.editorService.activeLayout;
 
   setLayout(layout: Layout): void {
-    this.screenRecorderService.setLayout(layout);
+    this.editorService.setLayout(layout);
   }
 }

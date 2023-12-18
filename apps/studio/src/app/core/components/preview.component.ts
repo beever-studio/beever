@@ -5,10 +5,10 @@ import {
   inject,
   ViewChild,
 } from '@angular/core';
-import { ScreenRecorderService } from '../services/screen-recorder.service';
+import { EditorService } from '../services/editor.service';
 
 @Component({
-  selector: 'beever-video',
+  selector: 'beever-preview',
   standalone: true,
   template: `
     <div
@@ -36,8 +36,8 @@ import { ScreenRecorderService } from '../services/screen-recorder.service';
     }
   `,
 })
-export class VideoComponent implements AfterViewInit {
-  screenRecorderService = inject(ScreenRecorderService);
+export class PreviewComponent implements AfterViewInit {
+  editorService = inject(EditorService);
 
   @ViewChild('video', { read: ElementRef })
   video!: ElementRef<HTMLVideoElement>;
@@ -46,7 +46,10 @@ export class VideoComponent implements AfterViewInit {
   canvas!: ElementRef<HTMLCanvasElement>;
 
   ngAfterViewInit(): void {
-    this.screenRecorderService.video = this.video.nativeElement;
-    this.screenRecorderService.canvas = this.canvas.nativeElement;
+    // TODO : init video only when share screen if activated (or with dynamic backstage)
+    this.editorService.initPreview(
+      this.video.nativeElement,
+      this.canvas.nativeElement
+    );
   }
 }

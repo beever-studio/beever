@@ -34,7 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
       <a
         mat-stroked-button
         color="accent"
-        routerLink="/record"
+        routerLink="/editor"
         [queryParams]="{ source: 'screen' }"
         >Screen recorder</a
       >

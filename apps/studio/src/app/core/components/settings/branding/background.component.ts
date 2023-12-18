@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { Background } from '../../models/background.model';
+import { Background } from '../../../models/background.model';
 import {
   CdkConnectedOverlay,
   CdkOverlayOrigin,
@@ -24,7 +24,7 @@ import { fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import { BeeverRenameComponent } from '../modals/rename.component';
+import { BeeverRenameComponent } from '../../modals/rename.component';
 
 @Component({
   selector: 'beever-background',
@@ -107,6 +107,7 @@ export class BackgroundComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // TODO review such a logic
     fromEvent(document, 'mouseover')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((mouseEvent) => {

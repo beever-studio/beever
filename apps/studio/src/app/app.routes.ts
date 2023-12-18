@@ -6,7 +6,7 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/home/home.component'),
   },
   {
-    path: 'record',
-    loadComponent: () => import('./pages/record/record.component'),
+    path: 'editor',
+    loadComponent: () => import('./pages/editor/editor.component'),
   },
 ];

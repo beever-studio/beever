@@ -2,9 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ScreenRecorderService } from '../../services/screen-recorder.service';
+import { PreviewService } from '../../../services/preview.service';
 import { BannerComponent } from './banner.component';
 import { NgForOf } from '@angular/common';
+import { SessionService } from '../../../services/session.service';
+import { EditorService } from '../../../services/editor.service';
+import { DEFAULT_BANNERS } from '../../consts/banner.const';
 
 @Component({
   selector: 'beever-banner-settings',
@@ -14,34 +17,25 @@ import { NgForOf } from '@angular/common';
       <beever-banner
         *ngFor="let banner of banners()"
         [banner]="banner"
-        [isActive]="activeBanner() === banner"
+        [isActive]="assets().banner === banner"
         (toggle)="toggle(banner)"
       >
       </beever-banner>
     </mat-list>
   `,
-  imports: [
-    MatListModule,
-    MatButtonModule,
-    MatIconModule,
-    BannerComponent,
-    NgForOf,
-  ],
+  imports: [MatListModule, BannerComponent, NgForOf],
 })
 export class BannerSettingsComponent {
-  screenRecorderService = inject(ScreenRecorderService);
+  editorService = inject(EditorService);
+  assets = this.editorService.assets;
 
-  banners = signal<string[]>(['Beever', 'Angular Devs France', 'Gerome']);
-
-  activeBanner = signal<string | undefined>(undefined);
+  banners = signal<string[]>(DEFAULT_BANNERS);
 
   toggle(banner: string): void {
-    if (this.activeBanner() === banner) {
-      this.activeBanner.set(undefined);
-      this.screenRecorderService.setBanner(undefined);
+    if (this.assets().banner === banner) {
+      this.editorService.setBanner(null);
     } else {
-      this.activeBanner.set(banner);
-      this.screenRecorderService.setBanner(banner);
+      this.editorService.setBanner(banner);
     }
   }
 }

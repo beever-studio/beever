@@ -20,8 +20,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ZoomComponent } from '../modals/zoom.component';
-import { downloadSnapshot } from '../../../shared/utils/download-snapshot.util';
+import { ZoomComponent } from '../../modals/zoom.component';
+import { downloadSnapshot } from '../../../../shared/utils/download-snapshot.util';
 import { NgClass } from '@angular/common';
 
 @Component({
