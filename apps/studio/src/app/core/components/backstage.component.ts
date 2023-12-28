@@ -4,10 +4,12 @@ import {
   ElementRef,
   inject,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EditorService } from '../services/editor.service';
+import { ScreenInputComponent } from './inputs/screen-input.component';
 
 @Component({
   selector: 'beever-backstage',
@@ -41,7 +43,9 @@ import { EditorService } from '../services/editor.service';
           </button>
         </div>
       </li>
+      <div #foo></div>
     </ul>
+    <button (click)="addScreen()">add screen</button>
   `,
   imports: [MatButtonModule, MatIconModule],
 })
@@ -50,6 +54,8 @@ export class BackstageComponent implements AfterViewInit {
 
   @ViewChild('video', { read: ElementRef })
   video!: ElementRef<HTMLVideoElement>;
+
+  @ViewChild('foo', { read: ViewContainerRef }) foo!: ViewContainerRef;
 
   ngAfterViewInit(): void {
     navigator.mediaDevices
@@ -67,5 +73,10 @@ export class BackstageComponent implements AfterViewInit {
 
   toggleShow(): void {
     this.editorService.showCamera(this.video.nativeElement);
+  }
+
+  addScreen(): void {
+    const component = this.foo?.createComponent(ScreenInputComponent);
+    this.foo.insert(component.hostView);
   }
 }

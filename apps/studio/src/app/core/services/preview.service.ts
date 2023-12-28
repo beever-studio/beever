@@ -13,6 +13,7 @@ import {
 } from '../utils/canvas.util';
 import { Assets } from '../models/assets.model';
 import { Layout } from '../models/layout.model';
+import { getMediaStream } from '../utils/media.util';
 
 @Injectable({
   providedIn: 'root',
@@ -108,7 +109,10 @@ export class PreviewService {
   }
 
   shareScreen(): void {
-    this.getMediaStream().subscribe((stream) => {
+    const width = this.sessionService.format().width;
+    const height = this.sessionService.format().height;
+
+    getMediaStream(width, height).subscribe((stream) => {
       this.videoSrc()!.srcObject = stream;
       this.render(this.sessionService.assets(), undefined, Layout.FULL);
     });
@@ -118,20 +122,6 @@ export class PreviewService {
     this.resetStream();
 
     // this.status.set(ScreenRecorderStatus.INACTIVE);
-  }
-
-  private getMediaStream(): Observable<MediaStream> {
-    return defer(() => this.getDisplayMedia());
-  }
-
-  private getDisplayMedia(): Promise<MediaStream> {
-    return navigator.mediaDevices.getDisplayMedia({
-      video: {
-        width: this.sessionService.format().width,
-        height: this.sessionService.format().height,
-        displaySurface: 'default',
-      },
-    });
   }
 
   togglePictureInPicture(): void {

@@ -17,6 +17,7 @@ export class EditorService {
   assets = this.sessionService.assets;
   color = this.sessionService.color;
   activeLayout = this.previewService.layout;
+  format = this.sessionService.format;
 
   snapshots$ = this.previewService.snapshots$;
   snapshotCount$ = this.snapshots$.pipe(map((snapshots) => snapshots.length));
