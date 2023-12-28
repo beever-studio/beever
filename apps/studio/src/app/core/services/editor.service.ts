@@ -3,7 +3,7 @@ import { SessionService } from './session.service';
 import { Layout } from '../models/layout.model';
 import { PreviewService } from './preview.service';
 import { RecorderService } from './recorder.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,7 @@ export class EditorService {
   activeLayout = this.previewService.layout;
 
   snapshots$ = this.previewService.snapshots$;
+  snapshotCount$ = this.snapshots$.pipe(map((snapshots) => snapshots.length));
 
   initPreview(video: HTMLVideoElement, canvas: HTMLCanvasElement): void {
     this.previewService.init(video, canvas, this.sessionService.assets());

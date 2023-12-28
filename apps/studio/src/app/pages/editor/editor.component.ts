@@ -16,6 +16,8 @@ import { LayoutContainerComponent } from '../../core/components/layouts/layout-c
 import { TabsComponent } from '../../core/components/tabs/tabs.component';
 import { TabComponent } from '../../core/components/tabs/tab.component';
 import { EditorService } from '../../core/services/editor.service';
+import { AsyncPipe } from '@angular/common';
+import { RxLet } from '@rx-angular/template/let';
 
 @Component({
   selector: 'beever-editor',
@@ -55,7 +57,12 @@ import { EditorService } from '../../core/services/editor.service';
             class="overflow-auto"
           ></beever-branding-settings>
         </beever-tab>
-        <beever-tab title="snpashots" icon="capture">
+        <beever-tab
+          title="snpashots"
+          icon="capture"
+          *rxLet="snapshotCount$; let count"
+          [badgeCounter]="count"
+        >
           <beever-snapshot-settings
             class="overflow-auto"
           ></beever-snapshot-settings>
@@ -86,10 +93,13 @@ import { EditorService } from '../../core/services/editor.service';
     LayoutContainerComponent,
     TabsComponent,
     TabComponent,
+    AsyncPipe,
+    RxLet,
   ],
 })
 export default class EditorComponent {
   editorService = inject(EditorService);
+  snapshotCount$ = this.editorService.snapshotCount$;
 
   @HostBinding('class') class = 'flex flex-col h-full';
 

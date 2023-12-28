@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TabComponent } from './tab.component';
 import { NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'beever-tabs',
@@ -38,7 +39,11 @@ import { MatRippleModule } from '@angular/material/core';
         id="tab-{{ i }}"
         (click)="toggleTab(i)"
       >
-        <mat-icon [svgIcon]="tab.icon"></mat-icon>
+        <mat-icon
+          [matBadge]="tab.badgeCounter"
+          [matBadgeHidden]="!tab.badgeCounter"
+          [svgIcon]="tab.icon"
+        ></mat-icon>
       </button>
     </div>
   `,
@@ -49,6 +54,7 @@ import { MatRippleModule } from '@angular/material/core';
     NgIf,
     NgClass,
     MatRippleModule,
+    MatBadgeModule,
   ],
 })
 export class TabsComponent {
