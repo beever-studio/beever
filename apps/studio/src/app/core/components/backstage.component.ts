@@ -32,7 +32,7 @@ import { EditorService } from '../services/editor.service';
             mat-mini-fab
             class="!bg-white"
             title="Add to stage"
-            (click)="show()"
+            (click)="toggleShow()"
           >
             <mat-icon svgIcon="visibility"></mat-icon>
           </button>
@@ -65,7 +65,7 @@ export class BackstageComponent implements AfterViewInit {
       });
   }
 
-  show(): void {
+  toggleShow(): void {
     this.editorService.showCamera(this.video.nativeElement);
   }
 }

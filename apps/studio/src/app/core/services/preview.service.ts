@@ -99,8 +99,8 @@ export class PreviewService {
     });
   }
 
-  showCamera(camera: HTMLVideoElement | undefined): void {
-    this.camera.set(camera);
+  showCamera(activeCamera: HTMLVideoElement | undefined): void {
+    this.camera.update((camera) => (camera ? undefined : activeCamera));
   }
 
   setLayout(layout: Layout): void {
