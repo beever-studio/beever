@@ -25,12 +25,13 @@ export class EditorService {
   initPreview(video: HTMLVideoElement, canvas: HTMLCanvasElement): void {
     this.previewService.init(video, canvas, this.sessionService.assets());
     combineLatest([
+      this.previewService.screenShareRatio$,
       this.sessionService.assets$,
       this.previewService.camera$,
       this.previewService.layout$,
-    ]).subscribe(([assets, camera, layout]) => {
+    ]).subscribe(([ratio, assets, camera, layout]) => {
       // TODO move the subscription in the component
-      this.previewService.render(assets, camera, layout);
+      this.previewService.render(assets, camera, layout, ratio);
     });
   }
 

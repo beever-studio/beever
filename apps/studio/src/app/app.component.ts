@@ -36,6 +36,10 @@ export class AppComponent {
     'picture_in_picture',
     'landscape',
     'portrait',
+    'arrow_dropdown',
+    'mic_off',
+    'settings',
+    'stop_screen_share',
   ];
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {

@@ -19,7 +19,12 @@ import { getMediaStream } from '../utils/media.util';
   providedIn: 'root',
 })
 export class PreviewService {
-  videoSrc = signal<HTMLVideoElement | undefined>(undefined);
+  screenShareSrc = signal<HTMLVideoElement | undefined>(undefined);
+  screenShare$ = toObservable(this.screenShareSrc);
+
+  screenShareRatio = signal<number>(0.5625);
+  screenShareRatio$ = toObservable(this.screenShareRatio);
+
   canvasSrc = signal<HTMLCanvasElement | undefined>(undefined);
 
   camera = signal<HTMLVideoElement | undefined>(undefined);
@@ -28,7 +33,7 @@ export class PreviewService {
   snapshots = signal<string[]>([]);
   snapshots$ = toObservable(this.snapshots);
 
-  layout = signal<Layout>(Layout.FULL);
+  layout = signal<Layout>(Layout.PICTURE_IN_PICTURE);
   layout$ = toObservable(this.layout);
 
   // TODO move required logic to EditorService
@@ -43,11 +48,11 @@ export class PreviewService {
     this.resetStream();
     this.captureStream();
 
-    this.render(assets, undefined, Layout.FULL);
+    this.render(assets, undefined, Layout.FULL, this.screenShareRatio());
   }
 
   private setSources(video: HTMLVideoElement, canvas: HTMLCanvasElement): void {
-    this.videoSrc.set(video);
+    this.screenShareSrc.set(video);
     this.canvasSrc.set(canvas);
   }
 
@@ -55,7 +60,7 @@ export class PreviewService {
     const tracks = window.stream?.getTracks();
     tracks?.forEach((track) => track.stop());
 
-    this.videoSrc()!.srcObject = null;
+    this.screenShareSrc()!.srcObject = null;
   }
 
   private captureStream(): void {
@@ -65,7 +70,8 @@ export class PreviewService {
   render(
     assets: Assets,
     camera: HTMLVideoElement | undefined,
-    layout: Layout
+    layout: Layout,
+    ratio: number
   ): void {
     const context = this.canvasSrc()!.getContext('2d')!;
 
@@ -75,8 +81,8 @@ export class PreviewService {
       clearCanvas(context);
     }
 
-    if (this.videoSrc()!.srcObject) {
-      fillScreen(context, this.videoSrc()!, layout);
+    if (this.screenShareSrc()!.srcObject) {
+      fillScreen(context, this.screenShareSrc()!, layout, ratio);
       // TODO : test
       // this.videoSrc()!.srcObject.getVideoTracks().forEach(track => track.requestFrame());
     }
@@ -96,7 +102,7 @@ export class PreviewService {
     }
 
     window.requestAnimationFrame(() => {
-      this.render(assets, camera, layout);
+      this.render(assets, camera, layout, ratio);
     });
   }
 
@@ -109,12 +115,38 @@ export class PreviewService {
   }
 
   shareScreen(): void {
+    // TODO : do not call render but send an event to the main one
     const width = this.sessionService.format().width;
     const height = this.sessionService.format().height;
 
     getMediaStream(width, height).subscribe((stream) => {
-      this.videoSrc()!.srcObject = stream;
-      this.render(this.sessionService.assets(), undefined, Layout.FULL);
+      const track = stream.getVideoTracks()[0]; // Get the video track
+      const settings = track.getSettings(); // Get track settings
+
+      const { width, height } = settings; // Extract width and height
+
+      // @ts-ignore
+      const ratio = height / width;
+
+      // calculate how to display any screen in 16:9
+      const displayWidth = 854;
+      const displayHeight = 480;
+      const displayRatio = displayHeight / displayWidth;
+
+      // @ts-ignore
+      const displayScale = ratio / displayRatio;
+      // @ts-ignore
+      const displayWidthScaled = displayWidth * displayScale;
+      // @ts-ignore
+      const displayHeightScaled = displayHeight * displayScale;
+      // @ts-ignore
+      const displayXOffset = (displayWidth - displayWidthScaled) / 2;
+      // @ts-ignore
+      const displayYOffset = (displayHeight - displayHeightScaled) / 2;
+
+      this.screenShareSrc()!.srcObject = stream;
+      this.layout.set(Layout.PICTURE_IN_PICTURE);
+      this.screenShareRatio.set(ratio);
     });
   }
 
@@ -128,7 +160,7 @@ export class PreviewService {
     if (document.pictureInPictureElement) {
       void document.exitPictureInPicture();
     } else if (document.pictureInPictureEnabled) {
-      void this.videoSrc()!.requestPictureInPicture();
+      void this.screenShareSrc()!.requestPictureInPicture();
     }
   }
 

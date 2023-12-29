@@ -62,6 +62,8 @@ export function fillLogo(
   context: CanvasRenderingContext2D,
   logo: HTMLImageElement
 ): void {
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = 'high';
   context.drawImage(logo, 764, 10, 80, 80);
 }
 
@@ -116,13 +118,27 @@ export function fillCamera(
 export function fillScreen(
   context: CanvasRenderingContext2D,
   video: HTMLVideoElement,
-  layout: Layout
+  layout: Layout,
+  ratio: number
 ): void {
   if (
     video.srcObject &&
     layout !== Layout.FULL &&
     layout !== Layout.SOLO_LAYOUT
   ) {
-    context.drawImage(video, 0, 0, 854, 480);
+    console.log({ ratio });
+
+    if (ratio <= 0.5625) {
+      const dif = 0.5625 - ratio;
+      const width = 854 * (1 - dif);
+      const startingPoint = (854 - width) / 2;
+      context.drawImage(video, startingPoint, 0, width, 480);
+    } else {
+      const dif = ratio - 0.5625;
+      const height = 480 * (1 - dif);
+      console.log({ height });
+      const startingPoint = (480 - height) / 2;
+      context.drawImage(video, 0, startingPoint, 854, height);
+    }
   }
 }
